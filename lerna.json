@@ -1,0 +1,15 @@
+{
+	"lerna": "2.11.0",
+	"packages": ["packages/*"],
+	"version": "independent",
+	"npmClient": "yarn",
+	"useWorkspaces": true,
+	"command": {
+		"version": {
+			"message": "chore(release): publish"
+		},
+		"publish": {
+			"registry": "https://npm.pkg.github.com"
+		}
+	}
+}

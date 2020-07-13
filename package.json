@@ -1,0 +1,20 @@
+{
+  "name": "next-extensions",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Next.js extensions",
+  "author": "Sébastien d'Olbecke <sebastien@mies.co>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mies-co/next-extensions.git"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {
+    "lerna": "^3.18.3"
+  },
+  "peerDependencies": {}
+}
