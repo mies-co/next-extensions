@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "v": "lerna version",
-    "publish.npm": "lerna publish from-package",
+    "publish.npm": "lerna publish from-git",
     "publish.github": "lerna publish from-package --registry https://npm.pkg.github.com"
   },
   "dependencies": {},
