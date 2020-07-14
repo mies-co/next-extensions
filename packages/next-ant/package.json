@@ -1,6 +1,6 @@
 {
   "name": "@mies-co/next-ant",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Use antd with nextjs having a theme written in scss.",
   "main": "index.js",
   "author": "Sébastien d'Olbecke <sebastien@mies.co>",
