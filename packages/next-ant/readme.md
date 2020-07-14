@@ -8,7 +8,7 @@ Next-Ant will get all scss variables from your theme file. It will expose a them
 
 ## Example
 
-[See an example app here](../../examples/next-ant-example)
+[See an example app here](https://github.com/mies-co/next-extensions/tree/master/examples/next-ant-example)
 
 ## Installation
 
