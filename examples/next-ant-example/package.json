@@ -1,0 +1,19 @@
+{
+  "name": "next-ant-example",
+  "version": "0.0.1",
+  "private": true,
+  "description": "An example app using next-ant",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@mies-co/next-ant": "^0.0.1",
+    "antd": "^4.0.3",
+    "next": "^9.4.0",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
+  }
+}
