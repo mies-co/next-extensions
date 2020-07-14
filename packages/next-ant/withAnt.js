@@ -13,9 +13,8 @@ const defaultAntConfig = {
 
 const checkFileExists = (p) => {
   try {
-    if (fs.existsSync(p)) {
-      return true;
-    }
+    if (fs.existsSync(p)) return true;
+    return false;
   } catch (err) {
     return false;
   }

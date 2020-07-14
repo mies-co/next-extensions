@@ -1,10 +1,10 @@
 # Next-Ant
 
-This extensions enables you to use ant and override its theme with a custom theme that you define using scss.
+Easily use [ant-design](https://ant.design/components/overview) with [nextjs](https://nextjs.org).
 
-Next-Ant will get all scss variables from your theme file. It will expose a theme object globally in your app, that contains your scss variables in camelCase.
+Next-Ant will override ant styles thanks to your theme.scss file.
 
-[Here is the list of default ant theme variables](https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less).
+[List of the default ant theme variables](https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less).
 
 ## Example
 
@@ -44,6 +44,10 @@ Then add this in package.json:
 
 ## Usage in your Next.js app
 
+### withAnt
+
+Enables to provide the ant webpack config to your nextjs config.
+
 In **next.config.js**:
 
 ```js
@@ -53,11 +57,13 @@ module.exports = withAnt({
   ant: {
     theme: "./public/static/styles/theme.scss",
   },
+  // Your nextjs config as per their documentation
+  // https://nextjs.org/docs/api-reference/next.config.js/introduction
 });
 ```
 
-### API
+#### API
 
-#### ant
+##### ant
 
 - theme: The path to your scss antd variables
