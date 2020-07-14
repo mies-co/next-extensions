@@ -1,0 +1,25 @@
+{
+  "name": "@mies-co/next-styled-components",
+  "version": "0.0.0",
+  "description": "Use styled-components with nextjs.",
+  "main": "dist/cjs/bundle.js",
+  "author": "Sébastien d'Olbecke <sebastien@mies.co>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mies-co/next-extensions.git",
+    "directory": "packages/next-extensions/next-styled-components"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {},
+  "dependencies": {
+    "hoist-non-react-statics": "^3.3.2"
+  },
+  "peerDependencies": {
+    "next": ">=9.4.0",
+    "react": ">=16.13.0",
+    "react-dom": ">=16.13.0",
+    "styled-components": ">=5.1.0"
+  }
+}
