@@ -1,0 +1,7 @@
+{
+	"name": "test",
+	"license": "MIT",
+	"scripts": {
+		"build": "node ./build"
+	}
+}

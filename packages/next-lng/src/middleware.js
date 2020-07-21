@@ -6,11 +6,12 @@ import getConfig from "next/config";
 
 const { publicRuntimeConfig: { lngConfig: { path: lngPath = "/public/static/translations" } = {} } = {} } = getConfig();
 
-export default async (req, res) => {
+const middleware = async (req, res) => {
 	res.statusCode = 200;
 	res.setHeader("Content-Type", "application/json");
 
 	const { lng } = req.query;
+
 	const lngPathRelative = lngPath.startsWith("/") ? lngPath.substr(1) : lngPath;
 	const lngPathAbsolute = path.resolve(lngPathRelative, `${lng}.json`);
 
@@ -24,3 +25,10 @@ export default async (req, res) => {
 
 	res.end(JSON.stringify(translations));
 };
+
+// Support commonjs `require('@mies-co/next-lng/middleware')`
+// For usage in custom server
+module.exports = middleware;
+exports = module.exports;
+
+export default middleware;
