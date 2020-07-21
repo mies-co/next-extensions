@@ -1,8 +1,8 @@
-# Next-Lng
+[![Next-Lng](https://user-images.githubusercontent.com/33988299/88075764-88832980-cb79-11ea-865c-86ce7b07c91e.png)](https://github.com/mies-co/next-extensions/tree/master/packages/next-lng)
 
-Offers an alternative, lighter and easier solution to [next-i18next](https://github.com/isaachinman/next-i18next).
+Light and easy solution to translate your Next.js apps. 
 
-Easily translate your [nextjs](https://nextjs.org) app with this tiny package.
+This is a simpler alternative to [next-i18next](https://github.com/isaachinman/next-i18next).
 
 ## Example
 
@@ -69,7 +69,7 @@ export { getServerSideProps };
 export default withLng(HomePage);
 ```
 
-- withLng: A HOC to wrap your component with.
+- withLng: A HOC to wrap your page with.
 - useLng: A react context exposing `lng`, `setLng` and `t`.
 - getServerSideProps: An async function fetches your lng API route
 
