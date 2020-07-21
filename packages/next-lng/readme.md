@@ -80,7 +80,7 @@ Provides the translations via [API Routes](https://nextjs.org/docs/api-routes/in
 In **pages/api/lng.js**:
 
 ```js
-export { middleware as default } from "@mies-co/next-lng";
+export { default } from "@mies-co/next-lng";
 ```
 
 - middleware: Gets your json translation files and retrieves them to `withLng` HOC.
