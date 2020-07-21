@@ -1,0 +1,30 @@
+{
+	"name": "@mies-co/next-lng",
+	"version": "0.0.0",
+	"description": "Use translations within nextjs.",
+	"main": "dist/cjs/bundle.js",
+	"author": "Sébastien d'Olbecke <sebastien@mies.co>",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mies-co/next-lng.git",
+		"directory": "packages/next-extensions/next-lng"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"inputs": [
+		"src/index.js",
+		"src/middleware.js"
+	],
+	"scripts": {},
+	"dependencies": {
+		"deepmerge": "^4.2.2",
+		"lodash": "^4.17.19",
+		"nookies": "^2.3.2"
+	},
+	"peerDependencies": {
+		"next": ">=9.4.0",
+		"react": ">=16.13.0",
+		"react-dom": ">=16.13.0"
+	}
+}
