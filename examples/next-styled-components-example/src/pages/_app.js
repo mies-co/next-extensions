@@ -2,9 +2,9 @@ import App from "next/app";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 
 const theme = {
-  colors: {
-    primary: "rgb(0, 128, 86)",
-  },
+	colors: {
+		primary: "rgb(0, 128, 86)",
+	},
 };
 
 const GlobalStyle = createGlobalStyle`
@@ -15,13 +15,13 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export default class MyApp extends App {
-  render() {
-    const { Component, pageProps } = this.props;
-    return (
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Component {...pageProps} />
-      </ThemeProvider>
-    );
-  }
+	render() {
+		const { Component, pageProps } = this.props;
+		return (
+			<ThemeProvider theme={theme}>
+				<GlobalStyle />
+				<Component {...pageProps} />
+			</ThemeProvider>
+		);
+	}
 }
