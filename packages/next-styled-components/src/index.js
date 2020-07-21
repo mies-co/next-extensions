@@ -1,4 +1,1 @@
-export {
-  default as withStyledDocument,
-  StyledDocument,
-} from "./withStyledDocument";
+export { default as withStyledDocument, StyledDocument } from "./withStyledDocument";
