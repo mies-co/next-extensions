@@ -17,3 +17,5 @@ npm run dev
 yarn
 yarn dev
 ```
+
+Visit http://localhost:3000/en
