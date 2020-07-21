@@ -1,0 +1,18 @@
+{
+	"name": "next-lng-example",
+	"version": "0.0.1",
+	"private": true,
+	"description": "An example app using next-lng",
+	"license": "MIT",
+	"scripts": {
+		"dev": "next",
+		"build": "next build",
+		"start": "next start"
+	},
+	"dependencies": {
+		"@mies-co/next-lng": "*",
+		"next": "^9.4.0",
+		"react": "^16.13.0",
+		"react-dom": "^16.13.0"
+	}
+}
