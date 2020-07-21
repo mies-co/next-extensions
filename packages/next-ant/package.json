@@ -1,30 +1,31 @@
 {
-  "name": "@mies-co/next-ant",
-  "version": "0.0.4",
-  "description": "Use antd with nextjs having a theme written in scss.",
-  "main": "index.js",
-  "author": "Sébastien d'Olbecke <sebastien@mies.co>",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mies-co/next-extensions.git",
-    "directory": "packages/next-extensions/next-ant"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "scripts": {},
-  "dependencies": {
-    "@zeit/next-less": "^1.0.1",
-    "@zeit/next-sass": "^1.0.1",
-    "antd-scss-theme-plugin": "^1.0.8",
-    "less": "^3.11.1",
-    "null-loader": "^3.0.0",
-    "sass-extract": "^2.1.0",
-    "sass-extract-js": "^0.4.0"
-  },
-  "peerDependencies": {
-    "next": ">=9.4.0",
-    "react": ">=16.13.0",
-    "react-dom": ">=16.13.0"
-  }
+	"name": "@mies-co/next-ant",
+	"version": "0.0.4",
+	"description": "Use antd with nextjs having a theme written in scss.",
+	"main": "index.js",
+	"author": "Sébastien d'Olbecke <sebastien@mies.co>",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mies-co/next-extensions.git",
+		"directory": "packages/next-extensions/next-ant"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"scripts": {},
+	"dependencies": {
+		"@zeit/next-css": "^1.0.1",
+		"@zeit/next-less": "^1.0.1",
+		"@zeit/next-sass": "^1.0.1",
+		"antd-scss-theme-plugin": "^1.0.8",
+		"less": "^3.11.1",
+		"null-loader": "^3.0.0",
+		"sass-extract": "^2.1.0",
+		"sass-extract-js": "^0.4.0"
+	},
+	"peerDependencies": {
+		"next": ">=9.4.0",
+		"react": ">=16.13.0",
+		"react-dom": ">=16.13.0"
+	}
 }
