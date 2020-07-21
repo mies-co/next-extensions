@@ -12,6 +12,11 @@
 	"publishConfig": {
 		"access": "public"
 	},
+	"files": [
+		"index.js",
+		"withAnt.js",
+		"readme.md"
+	],
 	"scripts": {},
 	"dependencies": {
 		"@zeit/next-css": "^1.0.1",
