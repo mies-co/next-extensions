@@ -22,7 +22,8 @@
 		"src/middleware.js"
 	],
 	"scripts": {
-		"test": "mocha"
+		"build.test": "yarn --cwd test/_fixtures build",
+		"test": "yarn build.test && mocha"
 	},
 	"dependencies": {
 		"deepmerge": "^4.2.2",

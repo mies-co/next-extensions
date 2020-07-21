@@ -6,6 +6,7 @@ import nookies from "nookies";
 import * as React from "react";
 
 import lngConfig, { demoTranslations } from "./config";
+import interpolate from "./utils/interpolate";
 
 const { languages } = lngConfig;
 const defaultLanguage = languages[0];
@@ -40,10 +41,7 @@ const withLng = (ComposedComponent, options = {}) => {
 			// TRANSLATION STRING INTERPOLATION
 			// ---
 			if (typeof interpolations === "object") {
-				Object.entries(interpolations).forEach(([key, val]) => {
-					const regex = new RegExp(`(\{\{${key}\}\})+`, "gm");
-					translation = translation.replace(regex, val);
-				});
+				translation = interpolate(translation, interpolations);
 			}
 
 			return translation;
