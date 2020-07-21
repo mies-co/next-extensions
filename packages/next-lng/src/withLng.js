@@ -69,21 +69,22 @@ export async function getServerSideProps(ctx) {
 		query: { lng = defaultLanguage },
 	} = ctx;
 
-	// COOKIES CREATION
-	// ---
-	const cookies = nookies.get(ctx);
-	if (!cookies["next-lng"] || cookies["next-lng"] !== lng) {
-		nookies.set(ctx, "next-lng", lng, {
-			maxAge: 30 * 24 * 60 * 60,
-			path: "/",
-		});
-	}
-
 	// DIRTY FIX - skip favicon.ico
 	// ---
 	// This is weird but how are we supposed to get around /favicon.ico?
 	if (lng === "favicon.ico") lng = cookies["next-lng"] || previousLng;
-	else previousLng = lng;
+	else {
+		// COOKIES CREATION
+		// ---
+		const cookies = nookies.get(ctx);
+		if (!cookies["next-lng"] || cookies["next-lng"] !== lng) {
+			nookies.set(ctx, "next-lng", lng, {
+				maxAge: 30 * 24 * 60 * 60,
+				path: "/",
+			});
+		}
+		previousLng = lng;
+	}
 
 	// FETCH API ROUTE
 	// ---
