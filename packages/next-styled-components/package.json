@@ -12,6 +12,10 @@
 	"publishConfig": {
 		"access": "public"
 	},
+	"files": [
+		"dist/",
+		"readme.md"
+	],
 	"scripts": {},
 	"dependencies": {
 		"hoist-non-react-statics": "^3.3.2"
