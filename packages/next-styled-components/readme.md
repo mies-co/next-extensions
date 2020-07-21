@@ -82,3 +82,4 @@ class MyDocument extends Document {
 
 export default withStyledDocument(MyDocument);
 ```
+

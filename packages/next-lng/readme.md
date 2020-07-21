@@ -84,3 +84,4 @@ export { middleware as default } from "@mies-co/next-lng";
 ```
 
 - middleware: Gets your json translation files and retrieves them to `withLng` HOC.
+
