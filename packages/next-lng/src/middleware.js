@@ -11,7 +11,8 @@ export default async (req, res) => {
 	res.setHeader("Content-Type", "application/json");
 
 	const { lng } = req.query;
-	const lngPathAbsolute = path.resolve(lngPath.substr(1), `${lng}.json`);
+	const lngPathRelative = lngPath.startsWith("/") ? lngPath.substr(1) : lngPath;
+	const lngPathAbsolute = path.resolve(lngPathRelative, `${lng}.json`);
 
 	const translations = await new Promise((resolve, reject) => {
 		fs.readFile(lngPathAbsolute, "utf8", (err, data) => {
