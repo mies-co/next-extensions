@@ -1,4 +1,4 @@
-import { withLng, useLng, getServerSideProps } from "@mies-co/next-lng";
+import { withLng, useLng, getTranslations } from "@mies-co/next-lng";
 
 const Greet = () => {
 	const { lng, setLng, t } = useLng();
@@ -18,6 +18,10 @@ const HomePage = () => {
 	return <Greet />;
 };
 
+// Arguments:
+// [0] - a string or string[] of globs
+// [1] - an object that overrides the default `options` defined in next.config.js
+const getServerSideProps = getTranslations("*/common", { shallow: true });
 export { getServerSideProps };
 
 export default withLng(HomePage);
