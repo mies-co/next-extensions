@@ -43,12 +43,13 @@ const getServerSideProps = async (ctx, files, options = defaultOptions) => {
 		body: JSON.stringify(body),
 		headers: { "Content-Type": "application/json" },
 	});
-	const translations = await data.json();
+	const { translations, translationsIncluded } = await data.json();
 
 	return {
 		props: {
 			lng,
 			translations,
+			translationsIncluded,
 			options,
 		},
 	};
