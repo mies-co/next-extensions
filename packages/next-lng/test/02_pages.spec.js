@@ -82,7 +82,7 @@ describe("PAGES", () => {
 		});
 	});
 
-	describe("/[lng]/example02", () => {
+	describe("/[lng]/scoped", () => {
 		const lng = "fr";
 
 		// Manually get translations and compare with the response from our middleware
@@ -95,7 +95,7 @@ describe("PAGES", () => {
 		};
 
 		before(async () => {
-			await page.goto(`http://localhost:9000/${lng}/example02`, { waitUntil: "domcontentloaded" });
+			await page.goto(`http://localhost:9000/${lng}/scoped`, { waitUntil: "domcontentloaded" });
 
 			evaluatedPage = await page.evaluate(() => {
 				return {

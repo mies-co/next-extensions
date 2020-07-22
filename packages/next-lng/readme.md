@@ -4,6 +4,13 @@ Light and easy solution to translate your Next.js apps.
 
 This is a simpler alternative to [next-i18next](https://github.com/isaachinman/next-i18next).
 
+# Table of contents
+
+- [Example](#Example)
+- [Installation](#Installation)
+- [Basic translation](#Basic\ translation)
+- [Scoped translation](#Scoped\ translation)
+
 ## Example
 
 [See an example app here](https://github.com/mies-co/next-extensions/tree/master/examples/next-lng-example)
@@ -40,28 +47,26 @@ Then add this in package.json:
 }
 ```
 
-## Usage in your Next.js app
+## Basic translation
 
-### Component Translations
-
+[embedmd]:# (../../examples/next-lng-example/src/pages/[lng]/index.js)
 ```js
 import { withLng, useLng, getServerSideProps } from "@mies-co/next-lng";
 
-const Greet = () => {
+const HomePage = () => {
+    // useLng can be used anywhere in your app, it's a React context.
 	const { lng, setLng, t } = useLng();
+    
+	// NB! the ids on dom elements are used only for testing purposes and can be safely deleted
 	return (
 		<>
-			<p>{t("greet")}</p>
-			<p>{t("whoami", { firstname: "Bob" })}</p>
+			<p id="x-greet">{t("greet")}</p>
+			<p id="x-whoami">{t("whoami", { firstname: "Bob" })}</p>
 			<button onClick={() => setLng("en")}>EN</button>
 			<button onClick={() => setLng("fr")}>FR</button>
-            <p>Current language is {lng}</p>
+			<p>Current language is {lng}</p>
 		</>
 	);
-};
-
-const HomePage = () => {
-    return <Greet />;
 };
 
 export { getServerSideProps };
@@ -69,19 +74,45 @@ export { getServerSideProps };
 export default withLng(HomePage);
 ```
 
-- withLng: A HOC to wrap your page with.
-- useLng: A react context exposing `lng`, `setLng` and `t`.
-- getServerSideProps: An async function fetches your lng API route
+- `withLng`: A HOC to wrap your page with.
+- `useLng`: A react context exposing `lng`, `setLng` and `t`.
+- `getServerSideProps`: An async function fetches your lng API route
 
-### API Routes Translations
+## Scoped translation
 
-Provides the translations via [API Routes](https://nextjs.org/docs/api-routes/introduction).
-
-In **pages/api/lng.js**:
-
+[embedmd]:# (../../examples/next-lng-example/src/pages/[lng]/scoped.js)
 ```js
-export { default } from "@mies-co/next-lng";
+import { withLng, useLng, getTranslations } from "@mies-co/next-lng";
+
+const HomePage = () => {
+    // useLng can be used anywhere in your app, it's a React context.
+	const { lng, setLng, t } = useLng();
+	// NB! the ids on dom elements are used only for testing purposes and can be safely deleted
+	return (
+		<>
+			<h1 id="x-header-title">{t("header.title")}</h1>
+			<p id="x-greet">{t("greet")}</p>
+			<p id="x-whoami">{t("whoami", { firstname: "Bob" })}</p>
+			<button onClick={() => setLng("en")}>EN</button>
+			<button onClick={() => setLng("fr")}>FR</button>
+			<p>Current language is {lng}</p>
+		</>
+	);
+};
+
+// Arguments:
+// [0] - a string or string[] of globs
+// [1] - an object that overrides the default `options` defined in next.config.js
+const getServerSideProps = getTranslations(["*/common", "header"], { shallow: true });
+export { getServerSideProps };
+
+export default withLng(HomePage);
 ```
 
-- middleware: Gets your json translation files and retrieves them to `withLng` HOC.
+- `withLng`: A HOC to wrap your page with.
+- `useLng`: A react context exposing `lng`, `setLng` and `t`.
+- `getTranslations`: A function that passes extra arguments to the default getServerSideProps (fetching your API routes)
+    - [0] A glob string or an array of glob strings that match the translations files to be fetched
+    - [1] The options object overrides the options defined in your `next.config.js` file. It enables to override "per-file".
+
 
