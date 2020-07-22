@@ -46,7 +46,7 @@ describe("PAGES", () => {
 		const lng = "fr";
 
 		// Manually get translations and compare with the response from our middleware
-		const translationsPath = path.resolve(lngPath, `${lng}.json`);
+		const translationsPath = path.resolve(lngPath, lng, "common.json");
 		const translations = require(translationsPath);
 
 		before(async () => {

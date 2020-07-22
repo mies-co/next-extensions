@@ -28,7 +28,7 @@ describe(`MIDDLEWARE`, () => {
 
 		it(`Should get translations from api routes`, async () => {
 			// Manually get translations and compare with the response from our middleware
-			const translationsPath = path.resolve(lngPath, `${lng}.json`);
+			const translationsPath = path.resolve(lngPath, lng, 'common.json');
 			const translations = require(translationsPath);
 			res.body.should.deep.include({ [lng]: translations });
 		});

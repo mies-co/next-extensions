@@ -30,7 +30,7 @@ const withLng = (ComposedComponent, options = {}) => {
 		const setLng = (lng) => {
 			const regex = new RegExp(`^/(${languages.join("|")})`);
 			const lngPath = router.asPath.replace(regex, `/${lng}`);
-			router.push(router.pathname, lngPath, { shallow: true });
+			router.push(router.pathname, lngPath, { shallow: false });
 		};
 
 		// TRANSLATE FUNCTION
@@ -63,7 +63,7 @@ const withLng = (ComposedComponent, options = {}) => {
 
 let previousLng = defaultLanguage;
 
-export async function getServerSideProps(ctx) {
+export const getServerSideProps = async (ctx) => {
 	let {
 		req,
 		query: { lng = defaultLanguage },
@@ -104,6 +104,6 @@ export async function getServerSideProps(ctx) {
 			translations,
 		},
 	};
-}
+};
 
 export default withLng;

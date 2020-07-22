@@ -13,7 +13,9 @@ const middleware = async (req, res) => {
 	const { lng } = req.query;
 
 	const lngPathRelative = lngPath.startsWith("/") ? lngPath.substr(1) : lngPath;
-	const lngPathAbsolute = path.resolve(lngPathRelative, `${lng}.json`);
+
+	// TODO add feature to filter files (common.json / footer.json / header.json etc.)
+	const lngPathAbsolute = path.resolve(lngPathRelative, lng, "common.json");
 
 	const translations = await new Promise((resolve, reject) => {
 		fs.readFile(lngPathAbsolute, "utf8", (err, data) => {
