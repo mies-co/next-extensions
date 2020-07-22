@@ -21,11 +21,17 @@
 		"src/index.js",
 		"src/middleware.js"
 	],
+	"testConfig": {
+		"examplePath": "../../examples/next-lng-example"
+	},
 	"scripts": {
-		"build.test": "yarn --cwd test/_fixtures build",
-		"test": "yarn build.test && mocha"
+		"x.dev": "yarn --cwd $npm_package_testConfig_examplePath dev",
+		"x.build": "yarn --cwd $npm_package_testConfig_examplePath build",
+		"x.start": "yarn --cwd $npm_package_testConfig_examplePath start",
+		"test": "yarn x.build && mocha"
 	},
 	"dependencies": {
+		"glob": "^7.1.6",
 		"deepmerge": "^4.2.2",
 		"lodash": "^4.17.19",
 		"nookies": "^2.3.2"

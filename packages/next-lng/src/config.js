@@ -12,7 +12,10 @@ const lngConfigDefault = {
 		name: "next-lng",
 		maxAge: 30 * 24 * 60 * 60,
 	},
-	path: "/public/static/translations",
+	path: "public/static/translations",
+	options: {
+		shallow: true,
+	},
 };
 
 const lngConfig = deepmerge(lngConfigDefault, lngConfigApp);

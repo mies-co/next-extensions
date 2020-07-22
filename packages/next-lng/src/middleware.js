@@ -1,29 +1,59 @@
 import fs from "fs";
 import path from "path";
 import url from "url";
+import glob from "glob";
 
-import getConfig from "next/config";
+import lngConfig, { demoTranslations } from "./config";
 
-const { publicRuntimeConfig: { lngConfig: { path: lngPath = "/public/static/translations" } = {} } = {} } = getConfig();
+const { languages = ["en"], path: lngPath = "public/static/translations" } = lngConfig;
+const defaultLanguage = languages[0];
 
 const middleware = async (req, res) => {
 	res.statusCode = 200;
 	res.setHeader("Content-Type", "application/json");
 
-	const { lng } = req.query;
+	const { lng = defaultLanguage, files, options } = req.body;
+	const { shallow } = options;
 
-	const lngPathRelative = lngPath.startsWith("/") ? lngPath.substr(1) : lngPath;
+	const lngPathRelative = lngPath;
+	const lngPathAbsolute = path.resolve(lngPathRelative);
 
-	// TODO add feature to filter files (common.json / footer.json / header.json etc.)
-	const lngPathAbsolute = path.resolve(lngPathRelative, lng, "common.json");
+	// Get all translation files -> [/Abs/path/to/fr/common.json] // -> [fr/common.json]
+	const existingFiles = glob(path.resolve(`${lngPathRelative}/*/*.json`), { sync: true }); // .map((x) => x.replace(path.resolve(lngPathRelative), "").substr(1)); // mark: false, removes end / on directories
 
-	const translations = await new Promise((resolve, reject) => {
-		fs.readFile(lngPathAbsolute, "utf8", (err, data) => {
-			if (err) return reject(err);
-			// data is a stringified json
-			return resolve({ [lng]: JSON.parse(data) });
-		});
-	});
+	let filePatterns = [];
+
+	// Default behavior, get current language common.json
+	if (!files) {
+		let fp = path.resolve(lngPathRelative, lng, "common.json");
+
+		// For shallow routing, as we don't refetch the server, we need to provide all languages
+		if (shallow) fp = path.resolve(lngPathRelative, "*", "common.json");
+		filePatterns = [fp];
+	} else {
+		for (let i = 0; i < files.length; i++) {
+			let filePattern = files[i];
+
+			if (!filePattern.includes("/")) filePattern = `${lng}/${filePattern}`;
+			if (!filePattern.endsWith(".json")) filePattern = `${filePattern}.json`;
+
+			const fp = path.resolve(lngPathRelative, filePattern);
+			filePatterns.push(fp);
+		}
+	}
+
+	const translationPaths = filePatterns.reduce((acc, filePattern) => {
+		acc = acc.concat(glob(filePattern, { sync: true }));
+		return acc;
+	}, []);
+
+	let translations = {};
+
+	for (let i = 0; i < translationPaths.length; i++) {
+		const translationPath = translationPaths[i];
+		const language = translationPath.replace(lngPathAbsolute, "").substr(1).split("/")[0];
+		translations[language] = require(translationPath);
+	}
 
 	res.end(JSON.stringify(translations));
 };

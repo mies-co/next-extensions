@@ -1,4 +1,9 @@
-module.exports = {
+const path = require("path");
+
+global.examplePath = path.resolve(process.env.npm_package_testConfig_examplePath);
+global.lngPath = path.resolve(global.examplePath, "public/static/translations");
+
+const config = {
 	target: "serverless",
 	publicRuntimeConfig: {
 		lngConfig: {
@@ -7,7 +12,10 @@ module.exports = {
 				name: "next-lng",
 				maxAge: 30 * 24 * 60 * 60,
 			},
-			path: "test/_fixtures/public/static/translations",
+			path: global.lngPath,
+			options: {
+				shallow: true,
+			},
 		},
 	},
 	webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
@@ -24,3 +32,9 @@ module.exports = {
 		return config;
 	},
 };
+
+const { webpack, ...nextConfig } = config;
+global.nexConfig = nextConfig;
+global.lngConfig = nextConfig.publicRuntimeConfig.lngConfig;
+
+module.exports = config;

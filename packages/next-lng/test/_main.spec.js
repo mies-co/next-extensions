@@ -17,6 +17,12 @@ chai.should();
 global.chai = chai;
 global.pup = puppeteer;
 
+// ! The following globals are defined in next.config.js
+// global.examplePath
+// global.lngPath
+// global.nexConfig
+// global.lngConfig
+
 const pkg = require(path.resolve("./package.json"));
 
 before(async function () {

@@ -3,6 +3,7 @@ import { resolve as resolveUrl } from "url";
 import get from "lodash/get";
 import { useRouter } from "next/router";
 import nookies from "nookies";
+
 import * as React from "react";
 
 import lngConfig, { demoTranslations } from "./config";
@@ -20,23 +21,45 @@ export const useLng = () => React.useContext(LngContext);
 
 const withLng = (ComposedComponent, options = {}) => {
 	const ComposedWithLng = (props) => {
-		const { lng, translations } = props;
+		const { lng: lngQuery, translations, options } = props;
+		const { shallow = true } = options;
+
+		const [lngState, setLngState] = React.useState(lngQuery);
+		const lng = lngState;
 
 		const router = useRouter();
 		const { query } = router;
 
 		// LANGUAGE CHANGE
 		// ---
-		const setLng = (lng) => {
-			const regex = new RegExp(`^/(${languages.join("|")})`);
-			const lngPath = router.asPath.replace(regex, `/${lng}`);
-			router.push(router.pathname, lngPath, { shallow: false });
+		const setLng = (newLng) => {
+			const cookies = nookies.get();
+			// COOKIES CREATION
+			// ---
+			if (!cookies["next-lng"] || cookies["next-lng"] !== newLng) {
+				nookies.set(null, "next-lng", newLng, {
+					maxAge: 30 * 24 * 60 * 60,
+					path: "/",
+				});
+			}
+
+			if (newLng && lngState !== newLng) setLngState(newLng);
 		};
+
+		React.useEffect(() => {
+			if (lngState) {
+				const regex = new RegExp(`^/(${languages.join("|")})`);
+				const lngPath = router.asPath.replace(regex, `/${lngState}`);
+
+				// TODO if shallow is true, get the files for all languages... On-demand is not possible yet with shallow: true.
+				router.push(router.pathname, lngPath, { shallow, getServerSideProps: false });
+			}
+		}, [lngState]);
 
 		// TRANSLATE FUNCTION
 		// ---
 		const t = (key, interpolations) => {
-			let translation = get(translations, `${lng}.${key}`) || "";
+			let translation = get(translations, `${lngState}.${key}`) || "";
 
 			// TRANSLATION STRING INTERPOLATION
 			// ---
@@ -59,51 +82,6 @@ const withLng = (ComposedComponent, options = {}) => {
 	};
 
 	return ComposedWithLng;
-};
-
-let previousLng = defaultLanguage;
-
-export const getServerSideProps = async (ctx) => {
-	let {
-		req,
-		query: { lng = defaultLanguage },
-	} = ctx;
-
-	const cookies = nookies.get(ctx);
-	// DIRTY FIX - skip favicon.ico
-	// ---
-	// This is weird but how are we supposed to get around /favicon.ico?
-	if (lng === "favicon.ico") lng = cookies["next-lng"] || previousLng;
-	else {
-		// COOKIES CREATION
-		// ---
-		if (!cookies["next-lng"] || cookies["next-lng"] !== lng) {
-			nookies.set(ctx, "next-lng", lng, {
-				maxAge: 30 * 24 * 60 * 60,
-				path: "/",
-			});
-		}
-		previousLng = lng;
-	}
-
-	// FETCH API ROUTE
-	// ---
-	const params = new URLSearchParams(
-		Object.entries({
-			lng,
-		})
-	);
-	const translationsUrl = `${req.protocol || "http"}://${req.headers.host}/api/lng?${params}`;
-
-	const data = await fetch(translationsUrl);
-	const translations = await data.json();
-
-	return {
-		props: {
-			lng,
-			translations,
-		},
-	};
 };
 
 export default withLng;
