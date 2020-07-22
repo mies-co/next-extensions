@@ -5,6 +5,7 @@ const Greet = () => {
 	// NB! the ids on dom elements are used only for testing purposes and can be safely deleted
 	return (
 		<>
+			<h1 id="x-header-title">{t("header.title")}</h1>
 			<p id="x-greet">{t("greet")}</p>
 			<p id="x-whoami">{t("whoami", { firstname: "Bob" })}</p>
 			<button onClick={() => setLng("en")}>EN</button>
@@ -21,7 +22,7 @@ const HomePage = () => {
 // Arguments:
 // [0] - a string or string[] of globs
 // [1] - an object that overrides the default `options` defined in next.config.js
-const getServerSideProps = getTranslations("*/common", { shallow: true });
+const getServerSideProps = getTranslations(["*/common", "header"], { shallow: true });
 export { getServerSideProps };
 
 export default withLng(HomePage);
