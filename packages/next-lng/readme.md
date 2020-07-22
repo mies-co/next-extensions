@@ -8,8 +8,8 @@ This is a simpler alternative to [next-i18next](https://github.com/isaachinman/n
 
 - [Example](#Example)
 - [Installation](#Installation)
-- [Basic translation](#Basic\ translation)
-- [Scoped translation](#Scoped\ translation)
+- [Basic translation](#Basic translation)
+- [Scoped translation](#Scoped translation)
 
 ## Example
 
