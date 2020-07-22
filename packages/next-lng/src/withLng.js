@@ -30,7 +30,7 @@ const withLng = (ComposedComponent, options = {}) => {
 		const setLng = (lng) => {
 			const regex = new RegExp(`^/(${languages.join("|")})`);
 			const lngPath = router.asPath.replace(regex, `/${lng}`);
-			router.push(router.pathname, lngPath);
+			router.push(router.pathname, lngPath, { shallow: true });
 		};
 
 		// TRANSLATE FUNCTION
@@ -69,6 +69,7 @@ export async function getServerSideProps(ctx) {
 		query: { lng = defaultLanguage },
 	} = ctx;
 
+	const cookies = nookies.get(ctx);
 	// DIRTY FIX - skip favicon.ico
 	// ---
 	// This is weird but how are we supposed to get around /favicon.ico?
@@ -76,7 +77,6 @@ export async function getServerSideProps(ctx) {
 	else {
 		// COOKIES CREATION
 		// ---
-		const cookies = nookies.get(ctx);
 		if (!cookies["next-lng"] || cookies["next-lng"] !== lng) {
 			nookies.set(ctx, "next-lng", lng, {
 				maxAge: 30 * 24 * 60 * 60,
