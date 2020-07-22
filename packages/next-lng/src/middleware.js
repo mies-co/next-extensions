@@ -34,7 +34,11 @@ const middleware = async (req, res) => {
 		for (let i = 0; i < files.length; i++) {
 			let filePattern = files[i];
 
-			if (!filePattern.includes("/")) filePattern = `${lng}/${filePattern}`;
+			if (!filePattern.includes("/")) {
+				// For shallow routing, as we don't refetch the server, we need to provide all languages
+				if (shallow) filePattern = `*/${filePattern}`;
+				else filePattern = `${lng}/${filePattern}`;
+			}
 			if (!filePattern.endsWith(".json")) filePattern = `${filePattern}.json`;
 
 			const fp = path.resolve(lngPathRelative, filePattern);
@@ -48,14 +52,19 @@ const middleware = async (req, res) => {
 	}, []);
 
 	let translations = {};
+	const translationsIncluded = [];
 
 	for (let i = 0; i < translationPaths.length; i++) {
 		const translationPath = translationPaths[i];
+		const { name: filename } = path.parse(translationPath);
+		if (!translationsIncluded.includes(filename)) translationsIncluded.push(filename);
+
 		const language = translationPath.replace(lngPathAbsolute, "").substr(1).split("/")[0];
-		translations[language] = require(translationPath);
+		if (!translations[language]) translations[language] = {};
+		translations[language][filename] = require(translationPath);
 	}
 
-	res.end(JSON.stringify(translations));
+	res.end(JSON.stringify({ translations, translationsIncluded }));
 };
 
 // Support commonjs `require('@mies-co/next-lng/middleware')`

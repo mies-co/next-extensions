@@ -21,8 +21,8 @@ describe("PAGES", () => {
 
 	// Before each `it` inside the next `describe`s
 	beforeEach(async () => {
-        // ! We close the page and create a new one each time.
-        // ! To ensure that `page.goto` finished, and without using `waitUntil: "networkidle0"` because it's slower.
+		// ! We close the page and create a new one each time.
+		// ! To ensure that `page.goto` finished, and without using `waitUntil: "networkidle0"` because it's slower.
 		if (page && page.close) await page.close();
 		page = await browser.newPage(); // Ensure create new page or it will sometimes keep /en from before
 	});
@@ -54,8 +54,11 @@ describe("PAGES", () => {
 		const lng = "fr";
 
 		// Manually get translations and compare with the response from our middleware
-		const translationsPath = path.resolve(global.lngPath, lng, "common.json");
-		const translations = require(translationsPath);
+		const common = path.resolve(global.lngPath, lng, "common.json");
+
+		const translations = {
+			common: require(common),
+		};
 
 		before(async () => {
 			await page.goto(`http://localhost:9000/${lng}`, { waitUntil: "domcontentloaded" });
@@ -69,28 +72,34 @@ describe("PAGES", () => {
 		});
 
 		it("Should translate", () => {
-			const good = translations.greet;
+			const good = translations.common.greet;
 			global.chai.expect(evaluatedPage.greet).to.be.equal(good);
 		});
 
-		it("Should translate with interpolation", () => {
-			const good = interpolate(translations.whoami, { firstname: "Bob" });
+		it("Should translate interpolated", () => {
+			const good = interpolate(translations.common.whoami, { firstname: "Bob" });
 			global.chai.expect(evaluatedPage.whoami).to.be.equal(good);
 		});
 	});
 
-	describe("/[lng]/getTranslations", () => {
+	describe("/[lng]/example02", () => {
 		const lng = "fr";
 
 		// Manually get translations and compare with the response from our middleware
-		const translationsPath = path.resolve(global.lngPath, lng, "common.json");
-		const translations = require(translationsPath);
+		const common = path.resolve(global.lngPath, lng, "common.json");
+		const header = path.resolve(global.lngPath, lng, "header.json");
+
+		const fr = {
+			common: require(common),
+			header: require(header),
+		};
 
 		before(async () => {
 			await page.goto(`http://localhost:9000/${lng}/example02`, { waitUntil: "domcontentloaded" });
 
 			evaluatedPage = await page.evaluate(() => {
 				return {
+					"header-title": (document.querySelector("#x-header-title") || {}).innerHTML,
 					greet: (document.querySelector("#x-greet") || {}).innerHTML,
 					whoami: (document.querySelector("#x-whoami") || {}).innerHTML,
 				};
@@ -101,13 +110,24 @@ describe("PAGES", () => {
 		});
 
 		it("Should translate", () => {
-			const good = translations.greet;
+			const good = fr.common.greet;
+
+			global.chai.expect(evaluatedPage.greet).to.be.a("string");
 			global.chai.expect(evaluatedPage.greet).to.be.equal(good);
 		});
 
-		it("Should translate with interpolation", () => {
-			const good = interpolate(translations.whoami, { firstname: "Bob" });
+		it("Should translate interpolated", () => {
+			const good = interpolate(fr.common.whoami, { firstname: "Bob" });
+
+			global.chai.expect(evaluatedPage.whoami).to.be.a("string");
 			global.chai.expect(evaluatedPage.whoami).to.be.equal(good);
+		});
+
+		it("Should translate scoped", () => {
+			const good = fr.header.title;
+
+			global.chai.expect(evaluatedPage["header-title"]).to.be.a("string");
+			global.chai.expect(evaluatedPage["header-title"]).to.be.equal(good);
 		});
 	});
 });

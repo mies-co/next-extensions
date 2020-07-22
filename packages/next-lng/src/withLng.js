@@ -21,7 +21,7 @@ export const useLng = () => React.useContext(LngContext);
 
 const withLng = (ComposedComponent, options = {}) => {
 	const ComposedWithLng = (props) => {
-		const { lng: lngQuery, translations, options } = props;
+		const { lng: lngQuery, translations, translationsIncluded = [], options } = props;
 		const { shallow = true } = options;
 
 		const [lngState, setLngState] = React.useState(lngQuery);
@@ -58,8 +58,17 @@ const withLng = (ComposedComponent, options = {}) => {
 
 		// TRANSLATE FUNCTION
 		// ---
-		const t = (key, interpolations) => {
-			let translation = get(translations, `${lngState}.${key}`) || "";
+		const t = (key = "", interpolations) => {
+			const keyParts = key.split(".");
+			let filename = keyParts[0];
+			let translationKey = key;
+
+			// Not specifying the filename falls back to "common"
+			if (!translationsIncluded.includes(filename)) filename = "common";
+			else if (keyParts.length > 1) translationKey = keyParts.slice(1, keyParts.length).join(".");
+
+			const tp = `${lngState}.${filename}.${translationKey}`;
+			let translation = get(translations, tp) || "";
 
 			// TRANSLATION STRING INTERPOLATION
 			// ---
