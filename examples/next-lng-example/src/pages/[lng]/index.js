@@ -1,7 +1,9 @@
 import { withLng, useLng, getServerSideProps } from "@mies-co/next-lng";
 
-const Greet = () => {
+const HomePage = () => {
+    // useLng can be used anywhere in your app, it's a React context.
 	const { lng, setLng, t } = useLng();
+    
 	// NB! the ids on dom elements are used only for testing purposes and can be safely deleted
 	return (
 		<>
@@ -12,10 +14,6 @@ const Greet = () => {
 			<p>Current language is {lng}</p>
 		</>
 	);
-};
-
-const HomePage = () => {
-	return <Greet />;
 };
 
 export { getServerSideProps };
