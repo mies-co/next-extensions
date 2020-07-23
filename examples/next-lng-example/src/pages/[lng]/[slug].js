@@ -1,9 +1,9 @@
 // Example of scoped translation
 
-import { withLng, useLng, getTranslations } from "@mies-co/next-lng";
+import { withLng, useLng, getTranslations, getServerSideProps } from "@mies-co/next-lng";
 import { useRouter } from "next/router";
 
-const Scoped = () => {
+const Slug = () => {
 	const { query } = useRouter();
 	// useLng can be used anywhere in your app, it's a React context.
 	const { lng, setLng, t } = useLng();
@@ -22,10 +22,5 @@ const Scoped = () => {
 	);
 };
 
-// Arguments:
-// [0] - a string or string[] of globs
-// [1] - an object that overrides the default `options` defined in next.config.js
-const getServerSideProps = getTranslations(["*/common", "header"], { shallow: true });
 export { getServerSideProps };
-
-export default withLng(Scoped);
+export default withLng(Slug);

@@ -1,7 +1,7 @@
 // ! If you don't need a custom _app.js page, you can safely delete this page.
 
 import { withLng, useLng, getServerSideProps } from "@mies-co/next-lng";
-// import App from 'next/app'
+import App from "next/app";
 
 import Topbar from "../comps/Topbar";
 
@@ -22,15 +22,15 @@ function MyApp({ Component, pageProps, lng, t, setLng }) {
 //
 // More info: https://nextjs.org/docs/advanced-features/custom-app
 //
-// MyApp.getInitialProps = async (appContext) => {
-// 	const appProps = await App.getInitialProps(appContext);
-// 	return {
-//      ...appProps,
-//      lng: {
-// 			options: { shallow: true },
-// 		},
-// 	};
-// };
+MyApp.getInitialProps = async (appContext) => {
+	const appProps = await App.getInitialProps(appContext);
+	return {
+		...appProps,
+		lng: {
+			// options: { shallow: true },
+		},
+	};
+};
 
 // You may only use withLng here in _app.js if one of its components needs translations at a higher level than pages
 export default withLng(MyApp);
