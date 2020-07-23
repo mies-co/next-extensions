@@ -1,15 +1,18 @@
-// Example of legacy getInitialProps usage
+// Example of scoped translation
 
 import { withLng, useLng, getTranslations } from "@mies-co/next-lng";
+import { useRouter } from "next/router";
 
-const Legacy = (props) => {
+const Scoped = () => {
+	const { query } = useRouter();
 	// useLng can be used anywhere in your app, it's a React context.
 	const { lng, setLng, t } = useLng();
 	// NB! the ids on dom elements are used only for testing purposes and can be safely deleted
 	return (
 		<>
-			<h1>Legacy example</h1>
+			<h1>Slug example</h1>
 			<h2 id="x-header-title">{t("header.title")}</h2>
+			<p id="x-slug">{t(query.slug)}</p>
 			<p id="x-greet">{t("greet")}</p>
 			<p id="x-whoami">{t("whoami", { firstname: "Bob" })}</p>
 			<button onClick={() => setLng("en")}>EN</button>
@@ -19,15 +22,10 @@ const Legacy = (props) => {
 	);
 };
 
-Legacy.getInitialProps = async () => {
-	return {
-		// Pass a lng object that describes the scope and options to pass
-		// This is only if you want to use scoped translations or customize the options. Otherwise don't even return anything.
-		lng: {
-			scope: ["*/common", "header"],
-			options: { shallow: true },
-		},
-	};
-};
+// Arguments:
+// [0] - a string or string[] of globs
+// [1] - an object that overrides the default `options` defined in next.config.js
+const getServerSideProps = getTranslations(["*/common", "header"], { shallow: true });
+export { getServerSideProps };
 
-export default withLng(Legacy);
+export default withLng(Scoped);

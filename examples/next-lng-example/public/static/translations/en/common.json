@@ -1,4 +1,5 @@
 {
 	"greet": "Hello",
-	"whoami": "I am {{firstname}}"
+	"whoami": "I am {{firstname}}",
+	"with-slug": "This is a slug"
 }
