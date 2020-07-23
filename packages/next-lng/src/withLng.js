@@ -82,7 +82,8 @@ const withLng = (ComposedComponent, opts = {}) => {
 
 		return (
 			<LngContext.Provider value={{ lng, setLng, t }}>
-				<ComposedComponent {...rest} />
+				{/* Props are passed here because hooks cannot be used in class Components */}
+				<ComposedComponent t={t} lng={lng} setLng={setLng} {...rest} />
 			</LngContext.Provider>
 		);
 	};
