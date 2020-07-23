@@ -1,6 +1,6 @@
 # Next-Ant
 
-[![Package Quality](https://npm.packagequality.com/badge/@mies-co%2Fnext-ant.png)](https://packagequality.com/#?package=@mies-co/next-ant)
+[![Package Quality](https://npm.packagequality.com/shield/@mies-co%2Fnext-ant.svg)](https://packagequality.com/#?package=@mies-co/next-ant)
 
 Easily use [ant-design](https://ant.design/components/overview) with [nextjs](https://nextjs.org).
 

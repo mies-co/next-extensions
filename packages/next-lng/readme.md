@@ -1,6 +1,6 @@
 [![Next-Lng](https://user-images.githubusercontent.com/33988299/88075764-88832980-cb79-11ea-865c-86ce7b07c91e.png)](https://github.com/mies-co/next-extensions/tree/master/packages/next-lng)
 
-[![Package Quality](https://npm.packagequality.com/badge/@mies-co%2Fnext-lng.png)](https://packagequality.com/#?package=@mies-co/next-lng)
+[![Package Quality](https://npm.packagequality.com/shield/@mies-co%2Fnext-lng.svg)](https://packagequality.com/#?package=@mies-co/next-lng)
 
 Light and easy solution to translate your Next.js apps. 
 
