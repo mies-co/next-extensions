@@ -6,7 +6,11 @@ const defaultLanguage = languages[0];
 
 let previousLng = defaultLanguage;
 
-const getServerSideProps = async (ctx, files, options = defaultOptions) => {
+const getServerSideProps = async (context, files, options = defaultOptions) => {
+	let ctx = context;
+	// In _app.js, it's appContext.ctx containing the ctx that we need here
+	if (context.ctx) ctx = context.ctx;
+
 	const cookies = nookies.get(ctx);
 	let {
 		req,

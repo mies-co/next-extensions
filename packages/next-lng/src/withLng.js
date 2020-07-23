@@ -21,19 +21,36 @@ const LngContext = React.createContext({
 export const useLng = () => React.useContext(LngContext);
 
 const withLng = (ComposedComponent, opts = {}) => {
+	// TODO - with require.resolve, check if getServerSideProps is exported if missing ComposedComponent.getInitialProps
 	const ComposedWithLng = (props) => {
-		const { lng: lngQuery, translations, translationsIncluded = [], options = {}, ...rest } = props;
-		const { shallow = true } = options;
+		// _APP -> already wrapped in withLng?
+		const { useLng = () => ({}) } = props;
+		const { lng: _appLng, setLng: _setAppLng } = useLng();
+
+		const router = useRouter();
+		const { query = {} } = router;
+
+		const { lng: lngQuery = query.lng, translations, translationsIncluded = [], options = {}, ...rest } = props;
+		const { shallow = true, ...opts } = options;
 
 		const [lngState, setLngState] = React.useState(lngQuery);
 		const lng = lngState;
 
-		const router = useRouter();
-		const { query } = router;
+		const routePush = () => {
+			if (lngState) {
+				const regex = new RegExp(`^/(${languages.join("|")})`);
+				const lngPath = router.asPath.replace(regex, `/${lngState}`);
+
+				// TODO if shallow is true, get the files for all languages... On-demand is not possible yet with shallow: true.
+				router.push(router.pathname, lngPath, { shallow, getServerSideProps: false });
+			}
+		};
 
 		// LANGUAGE CHANGE
 		// ---
 		const setLng = (newLng) => {
+			if (!newLng) return;
+
 			const cookies = nookies.get();
 			// COOKIES CREATION
 			// ---
@@ -44,18 +61,18 @@ const withLng = (ComposedComponent, opts = {}) => {
 				});
 			}
 
-			if (newLng && lngState !== newLng) setLngState(newLng);
+			if (lngState !== newLng) {
+				routePush();
+				setLngState(newLng);
+				// _APP -> set new language
+				if (typeof _setAppLng === "function") _setAppLng(newLng);
+			}
 		};
 
+		// _APP -> its lng changed, so we need ot update the lng of our page
 		React.useEffect(() => {
-			if (lngState) {
-				const regex = new RegExp(`^/(${languages.join("|")})`);
-				const lngPath = router.asPath.replace(regex, `/${lngState}`);
-
-				// TODO if shallow is true, get the files for all languages... On-demand is not possible yet with shallow: true.
-				router.push(router.pathname, lngPath, { shallow, getServerSideProps: false });
-			}
-		}, [lngState]);
+			setLng(_appLng);
+		}, [_appLng]);
 
 		// TRANSLATE FUNCTION
 		// ---
@@ -68,7 +85,9 @@ const withLng = (ComposedComponent, opts = {}) => {
 			if (!translationsIncluded.includes(filename)) filename = "common";
 			else if (keyParts.length > 1) translationKey = keyParts.slice(1, keyParts.length).join(".");
 
-			const tp = `${lngState}.${filename}.${translationKey}`;
+			// _APP -> has a language already?
+			const languageToUse = _appLng || lngState;
+			const tp = `${languageToUse}.${filename}.${translationKey}`;
 			let translation = get(translations, tp) || "";
 
 			// TRANSLATION STRING INTERPOLATION
@@ -77,7 +96,7 @@ const withLng = (ComposedComponent, opts = {}) => {
 				translation = interpolate(translation, interpolations);
 			}
 
-			return translation;
+			return translation || "HOLAAA";
 		};
 
 		return (
