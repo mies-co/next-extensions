@@ -36,14 +36,12 @@ const withLng = (ComposedComponent, opts = {}) => {
 		const [lngState, setLngState] = React.useState(lngQuery);
 		const lng = lngState;
 
-		const routePush = () => {
-			if (lngState) {
-				const regex = new RegExp(`^/(${languages.join("|")})`);
-				const lngPath = router.asPath.replace(regex, `/${lngState}`);
+		const routePush = (newLng) => {
+			const regex = new RegExp(`^/(${languages.join("|")})`);
+			const lngPath = router.asPath.replace(regex, `/${newLng}`);
 
-				// TODO if shallow is true, get the files for all languages... On-demand is not possible yet with shallow: true.
-				router.push(router.pathname, lngPath, { shallow, getServerSideProps: false });
-			}
+			// TODO if shallow is true, get the files for all languages... On-demand is not possible yet with shallow: true.
+			router.replace(router.pathname, lngPath, { shallow, getServerSideProps: false });
 		};
 
 		// LANGUAGE CHANGE
@@ -62,8 +60,9 @@ const withLng = (ComposedComponent, opts = {}) => {
 			}
 
 			if (lngState !== newLng) {
-				routePush();
 				setLngState(newLng);
+				routePush(newLng);
+
 				// _APP -> set new language
 				if (typeof _setAppLng === "function") _setAppLng(newLng);
 			}
@@ -96,7 +95,7 @@ const withLng = (ComposedComponent, opts = {}) => {
 				translation = interpolate(translation, interpolations);
 			}
 
-			return translation || "HOLAAA";
+			return translation;
 		};
 
 		return (
