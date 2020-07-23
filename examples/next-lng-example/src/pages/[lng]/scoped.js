@@ -2,7 +2,7 @@
 
 import { withLng, useLng, getTranslations } from "@mies-co/next-lng";
 
-const HomePage = () => {
+const Scoped = () => {
 	// useLng can be used anywhere in your app, it's a React context.
 	const { lng, setLng, t } = useLng();
 	// NB! the ids on dom elements are used only for testing purposes and can be safely deleted
@@ -24,4 +24,4 @@ const HomePage = () => {
 const getServerSideProps = getTranslations(["*/common", "header"], { shallow: true });
 export { getServerSideProps };
 
-export default withLng(HomePage);
+export default withLng(Scoped);
