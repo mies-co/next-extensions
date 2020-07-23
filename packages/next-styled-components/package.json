@@ -17,9 +17,6 @@
 		"readme.md"
 	],
 	"scripts": {},
-	"dependencies": {
-		"hoist-non-react-statics": "^3.3.2"
-	},
 	"peerDependencies": {
 		"next": ">=9.4.0",
 		"react": ">=16.13.0",
