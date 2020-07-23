@@ -1,8 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheet } from "styled-components";
 
-import hoistNonReactStatics from "hoist-non-react-statics";
-
 const withStyledComponents = (ComposedComponent) => {
 	class DocumentWithStyledComponents extends Document {
 		static async getInitialProps(ctx) {

@@ -1,5 +1,7 @@
 # Next-Styled-Components
 
+[![Package Quality](https://npm.packagequality.com/shield/@mies-co%2Fnext-styled-components.svg)](https://packagequality.com/#?package=@mies-co/next-styled-components)
+
 Easily use [styled-components](https://styled-components.com) with [nextjs](https://nextjs.org).
 
 ## Example

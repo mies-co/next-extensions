@@ -130,4 +130,53 @@ describe("PAGES", () => {
 			global.chai.expect(evaluatedPage["header-title"]).to.be.equal(good);
 		});
 	});
+
+	describe("/[lng]/legacy", () => {
+		const lng = "fr";
+
+		// Manually get translations and compare with the response from our middleware
+		const common = path.resolve(global.lngPath, lng, "common.json");
+		const header = path.resolve(global.lngPath, lng, "header.json");
+
+		const fr = {
+			common: require(common),
+			header: require(header),
+		};
+
+		before(async () => {
+			await page.goto(`http://localhost:9000/${lng}/legacy`, { waitUntil: "domcontentloaded" });
+
+			evaluatedPage = await page.evaluate(() => {
+				return {
+					"header-title": (document.querySelector("#x-header-title") || {}).innerHTML,
+					greet: (document.querySelector("#x-greet") || {}).innerHTML,
+					whoami: (document.querySelector("#x-whoami") || {}).innerHTML,
+				};
+			});
+
+			// const html = await page.content();
+			// console.log("evaluatedPage --", html);
+		});
+
+		it("Should translate", () => {
+			const good = fr.common.greet;
+
+			global.chai.expect(evaluatedPage.greet).to.be.a("string");
+			global.chai.expect(evaluatedPage.greet).to.be.equal(good);
+		});
+
+		it("Should translate interpolated", () => {
+			const good = interpolate(fr.common.whoami, { firstname: "Bob" });
+
+			global.chai.expect(evaluatedPage.whoami).to.be.a("string");
+			global.chai.expect(evaluatedPage.whoami).to.be.equal(good);
+		});
+
+		it("Should translate legacy", () => {
+			const good = fr.header.title;
+
+			global.chai.expect(evaluatedPage["header-title"]).to.be.a("string");
+			global.chai.expect(evaluatedPage["header-title"]).to.be.equal(good);
+		});
+	});
 });

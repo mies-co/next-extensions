@@ -8,6 +8,7 @@ import * as React from "react";
 
 import lngConfig, { demoTranslations } from "./config";
 import interpolate from "./utils/interpolate";
+import getTranslations from "./getTranslations";
 
 const { languages } = lngConfig;
 const defaultLanguage = languages[0];
@@ -19,9 +20,9 @@ const LngContext = React.createContext({
 
 export const useLng = () => React.useContext(LngContext);
 
-const withLng = (ComposedComponent, options = {}) => {
+const withLng = (ComposedComponent, opts = {}) => {
 	const ComposedWithLng = (props) => {
-		const { lng: lngQuery, translations, translationsIncluded = [], options } = props;
+		const { lng: lngQuery, translations, translationsIncluded = [], options = {}, ...rest } = props;
 		const { shallow = true } = options;
 
 		const [lngState, setLngState] = React.useState(lngQuery);
@@ -81,7 +82,7 @@ const withLng = (ComposedComponent, options = {}) => {
 
 		return (
 			<LngContext.Provider value={{ lng, setLng, t }}>
-				<ComposedComponent />
+				<ComposedComponent {...rest} />
 			</LngContext.Provider>
 		);
 	};
@@ -89,6 +90,22 @@ const withLng = (ComposedComponent, options = {}) => {
 	ComposedWithLng.defaultProps = {
 		translations: demoTranslations,
 	};
+
+	if (ComposedComponent.getInitialProps) {
+		ComposedWithLng.getInitialProps = async (ctx) => {
+			let composedInitialProps = {};
+			composedInitialProps = await ComposedComponent.getInitialProps(ctx);
+
+			// Get these from the ComposedComponent's getInitialProps
+			const { lng: { scope, options } = {} } = composedInitialProps;
+			const { props: lngProps } = await getTranslations(scope, options)(ctx);
+
+			return {
+				...composedInitialProps,
+				...lngProps,
+			};
+		};
+	}
 
 	return ComposedWithLng;
 };

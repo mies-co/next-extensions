@@ -19,15 +19,23 @@ const config = {
 		},
 	},
 	webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-		config.plugins.push(
-			// Disables warnings - "Critical dependency: the request of a dependency is an expression"
-			new webpack.ContextReplacementPlugin(/.*/, (data) => {
-				data.dependencies.forEach((element) => {
-					delete element.critical;
-				});
-				return data;
-			})
-		);
+		config.module = {
+			...config.module,
+			// Critical dependency: the request of a dependency is an expression
+			// Avoid warning from webpack when require has an expression.
+			// Which is the case for requiring plugins dynamically.
+			exprContextCritical: false,
+		};
+
+		// config.plugins.push(
+		// 	// Disables warnings - "Critical dependency: the request of a dependency is an expression"
+		// 	new webpack.ContextReplacementPlugin(/.*/, (data) => {
+		// 		data.dependencies.forEach((element) => {
+		// 			delete element.critical;
+		// 		});
+		// 		return data;
+		// 	})
+		// );
 
 		return config;
 	},

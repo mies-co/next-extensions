@@ -1,5 +1,7 @@
 # Next-Ant
 
+[![Package Quality](https://npm.packagequality.com/shield/@mies-co%2Fnext-ant.svg)](https://packagequality.com/#?package=@mies-co/next-ant)
+
 Easily use [ant-design](https://ant.design/components/overview) with [nextjs](https://nextjs.org).
 
 Next-Ant will override ant styles thanks to your theme.scss file.
