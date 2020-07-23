@@ -12,10 +12,7 @@ const getServerSideProps = async (context, files, options = defaultOptions) => {
 	if (context.ctx) ctx = context.ctx;
 
 	const cookies = nookies.get(ctx);
-	let {
-		req,
-		query: { lng = cookies["next-lng"] || previousLng },
-	} = ctx;
+	let { req = {}, query: { lng = cookies["next-lng"] || previousLng } = {} } = ctx;
 
 	// DIRTY FIX - skip favicon.ico
 	// ---
@@ -40,7 +37,14 @@ const getServerSideProps = async (context, files, options = defaultOptions) => {
 	if (files) body.files = files;
 	if (options) body.options = options;
 
-	const translationsUrl = `${req.protocol || "http"}://${req.headers.host}/api/lng`;
+	// Create an absolute url
+	let translationsUrl = "";
+	if (typeof window !== "undefined") {
+		translationsUrl = new URL("/api/lng", document.baseURI).href;
+	} else {
+		const { protocol = "http", headers } = req;
+		translationsUrl = `${req.protocol || "http"}://${req.headers.host}/api/lng`;
+	}
 
 	const data = await fetch(translationsUrl, {
 		method: "post",
