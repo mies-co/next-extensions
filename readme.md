@@ -1,5 +1,7 @@
 # Next.js Extensions
 
+[![Package Quality](https://npm.packagequality.com/badge/@mies-co%2Fnext-ant.png)](https://packagequality.com/#?package=@mies-co/next-ant) [![Package Quality](https://npm.packagequality.com/badge/@mies-co%2Fnext-lng.png)](https://packagequality.com/#?package=@mies-co/next-lng) [![Package Quality](https://npm.packagequality.com/badge/@mies-co%2Fnext-styled-components.png)](https://packagequality.com/#?package=@mies-co/next-styled-components)
+
 Extend your Next.js app features easily.
 
 ## Extensions
