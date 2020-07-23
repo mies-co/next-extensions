@@ -61,7 +61,10 @@ const middleware = async (req, res) => {
 
 		const language = translationPath.replace(lngPathAbsolute, "").substr(1).split("/")[0];
 		if (!translations[language]) translations[language] = {};
-		translations[language][filename] = require(translationPath);
+
+		// As this is used in next.js bundled by webpack, require should be replaced by __non_webpack_require__
+		// translations[language][filename] = require(translationPath);
+		translations[language][filename] = JSON.parse(fs.readFileSync(translationPath, "utf8"));
 	}
 
 	res.end(JSON.stringify({ translations, translationsIncluded }));
