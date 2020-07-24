@@ -1,6 +1,6 @@
 const path = require("path");
 
-global.examplePath = path.resolve(process.env.npm_package_testConfig_examplePath);
+global.examplePath = path.resolve(process.env.npm_package_config_example);
 global.lngPath = path.resolve(global.examplePath, "public/static/translations");
 
 const config = {
