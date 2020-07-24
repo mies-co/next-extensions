@@ -1,4 +1,4 @@
-import { useLng, getServerSideProps } from "@mies-co/next-lng";
+import { useLng } from "@mies-co/next-lng";
 
 const Topbar = (props) => {
 	const { t, lng, setLng } = useLng();

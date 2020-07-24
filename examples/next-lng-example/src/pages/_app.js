@@ -1,6 +1,6 @@
 // ! If you don't need a custom _app.js page, you can safely delete this page.
 
-import { withLng, useLng, getServerSideProps } from "@mies-co/next-lng";
+import { withLng, useLng } from "@mies-co/next-lng";
 import App from "next/app";
 
 import Topbar from "../comps/Topbar";
