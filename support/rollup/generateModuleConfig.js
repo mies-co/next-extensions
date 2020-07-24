@@ -66,7 +66,7 @@ const generateModuleConfig = ({ modulePkg, modulePath }) => {
 		name,
 		output,
 		plugins,
-		// external: ["fs"],
+		external: ["fs"],
 	};
 
 	return config;
