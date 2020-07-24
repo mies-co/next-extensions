@@ -1,5 +1,6 @@
 import { resolve as resolveUrl } from "url";
 
+import setPageExports from "@mies-co/next-utils/setPageExports";
 import get from "lodash/get";
 import { useRouter } from "next/router";
 import nookies from "nookies";
@@ -9,6 +10,7 @@ import * as React from "react";
 import lngConfig, { demoTranslations } from "./config";
 import interpolate from "./utils/interpolate";
 import getTranslations from "./getTranslations";
+import getServerSideProps from "./getServerSideProps";
 
 const { languages } = lngConfig;
 const defaultLanguage = languages[0];
@@ -110,10 +112,10 @@ const withLng = (ComposedComponent, opts = {}) => {
 		translations: demoTranslations,
 	};
 
+	// Page has getInitialProps -> merge
 	if (ComposedComponent.getInitialProps) {
 		ComposedWithLng.getInitialProps = async (ctx) => {
-			let composedInitialProps = {};
-			composedInitialProps = await ComposedComponent.getInitialProps(ctx);
+			const composedInitialProps = await ComposedComponent.getInitialProps(ctx);
 
 			// Get these from the ComposedComponent's getInitialProps
 			const { lng: { scope, options } = {} } = composedInitialProps;
@@ -124,6 +126,32 @@ const withLng = (ComposedComponent, opts = {}) => {
 				...lngProps,
 			};
 		};
+	}
+	// Automatically handle getServerSideProps!!
+	else {
+		// Remains here for now for easier readability of the code
+		const newExports = [
+			{
+				getServerSideProps: (existingGetServerSideProps) => async (ctx) => {
+					let existing = { props: {} };
+
+					// Page has getServerSideProps -> merge
+					if (typeof existingGetServerSideProps === "function") existing = await existingGetServerSideProps(ctx);
+					const { props: existingProps = {} } = existing;
+					const { props: newProps = {} } = await getServerSideProps(ctx);
+
+					return { props: { ...newProps, ...existingProps } };
+				},
+				options: {
+					// Override the existing export
+					override: true,
+					// Invoke all functions provided here, providing them with the existing value as a parameter
+					getExisting: true,
+				},
+			},
+		];
+
+		setPageExports("withLng", newExports);
 	}
 
 	return ComposedWithLng;
