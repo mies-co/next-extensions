@@ -41,7 +41,7 @@ const withLng = (ComposedComponent, opts = {}) => {
 			const lngPath = router.asPath.replace(regex, `/${newLng}`);
 
 			// TODO if shallow is true, get the files for all languages... On-demand is not possible yet with shallow: true.
-			router.replace(router.pathname, lngPath, { shallow, getServerSideProps: false });
+			router.replace(router.pathname, lngPath, { shallow });
 		};
 
 		// LANGUAGE CHANGE

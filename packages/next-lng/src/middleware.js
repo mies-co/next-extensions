@@ -25,10 +25,10 @@ const middleware = async (req, res) => {
 
 	// Default behavior, get current language common.json
 	if (!files) {
-		let fp = path.resolve(lngPathRelative, lng, "common.json");
+		// let fp = path.resolve(lngPathRelative, lng, "common.json"); // only require current lng?
+		// TODO implement a way to not provide all languages at once?
+		const fp = path.resolve(lngPathRelative, "*", "common.json");
 
-		// For shallow routing, as we don't refetch the server, we need to provide all languages
-		if (shallow) fp = path.resolve(lngPathRelative, "*", "common.json");
 		filePatterns = [fp];
 	} else {
 		for (let i = 0; i < files.length; i++) {
