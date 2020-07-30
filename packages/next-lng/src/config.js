@@ -8,13 +8,15 @@ const {
 
 const lngConfigDefault = {
 	languages: ["en", "fr"],
-	cookie: {
-		name: "next-lng",
-		maxAge: 30 * 24 * 60 * 60,
-	},
 	path: "public/static/translations",
 	options: {
+		apiUri: "/api/lng",
 		shallow: true,
+		cookie: {
+			name: "next-lng",
+			path: "/",
+			maxAge: 30 * 24 * 60 * 60,
+		},
 	},
 };
 

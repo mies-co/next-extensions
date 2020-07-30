@@ -8,13 +8,15 @@ const config = {
 	publicRuntimeConfig: {
 		lngConfig: {
 			languages: ["en", "fr"],
-			cookie: {
-				name: "next-lng",
-				maxAge: 30 * 24 * 60 * 60,
-			},
 			path: global.lngPath,
 			options: {
 				shallow: true,
+				apiUri: "/api/lng",
+				cookie: {
+					name: "next-lng",
+					path: "/",
+					maxAge: 30 * 24 * 60 * 60,
+				},
 			},
 		},
 	},
