@@ -1,6 +1,6 @@
 const path = require("path");
 
-global.examplePath = path.resolve(process.env.npm_package_testConfig_examplePath);
+global.examplePath = path.resolve(process.env.npm_package_config_example);
 global.lngPath = path.resolve(global.examplePath, "public/static/translations");
 
 const config = {
@@ -8,13 +8,15 @@ const config = {
 	publicRuntimeConfig: {
 		lngConfig: {
 			languages: ["en", "fr"],
-			cookie: {
-				name: "next-lng",
-				maxAge: 30 * 24 * 60 * 60,
-			},
 			path: global.lngPath,
 			options: {
 				shallow: true,
+				apiUri: "/api/lng",
+				cookie: {
+					name: "next-lng",
+					path: "/",
+					maxAge: 30 * 24 * 60 * 60,
+				},
 			},
 		},
 	},

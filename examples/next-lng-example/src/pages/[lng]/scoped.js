@@ -2,13 +2,14 @@
 
 import { withLng, useLng, getTranslations } from "@mies-co/next-lng";
 
-const HomePage = () => {
+const Scoped = () => {
 	// useLng can be used anywhere in your app, it's a React context.
 	const { lng, setLng, t } = useLng();
 	// NB! the ids on dom elements are used only for testing purposes and can be safely deleted
 	return (
 		<>
-			<h1 id="x-header-title">{t("header.title")}</h1>
+			<h1>Scoped example</h1>
+			<h2 id="x-header-title">{t("header.title")}</h2>
 			<p id="x-greet">{t("greet")}</p>
 			<p id="x-whoami">{t("whoami", { firstname: "Bob" })}</p>
 			<button onClick={() => setLng("en")}>EN</button>
@@ -24,4 +25,4 @@ const HomePage = () => {
 const getServerSideProps = getTranslations(["*/common", "header"], { shallow: true });
 export { getServerSideProps };
 
-export default withLng(HomePage);
+export default withLng(Scoped);

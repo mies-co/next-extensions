@@ -1,13 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 
-const withCss = require("@zeit/next-css");
-const withLess = require("@zeit/next-less");
-const withSass = require("@zeit/next-sass");
-
-const AntdScssThemePlugin = require("antd-scss-theme-plugin");
-const sassExtract = require("sass-extract");
-
 const defaultAntConfig = {
 	theme: "./public/static/styles/theme.scss",
 };
@@ -22,6 +15,14 @@ const checkFileExists = (p) => {
 };
 
 const getAppConfigWithAnt = (customAppConfig) => {
+	// They are here so we can skip node-sass in our Serverless deployment
+	const withCss = require("@zeit/next-css");
+	const withLess = require("@zeit/next-less");
+	const withSass = require("@zeit/next-sass");
+
+	const AntdScssThemePlugin = require("antd-scss-theme-plugin");
+	const sassExtract = require("sass-extract");
+
 	let appConfig = customAppConfig;
 
 	appConfig.ant = {
