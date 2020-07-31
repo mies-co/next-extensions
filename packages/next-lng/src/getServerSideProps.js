@@ -13,7 +13,7 @@ const bigError = new Error(
 	"\nError identified by next-lng.\nYour API route to fetch translations might be wrong, or it matched a page that uses dynamic routing.\nThis resulted probably in the page trying to fetch itself."
 );
 
-const getServerSideProps = async (context, files, runtimeOptions = {}) => {
+const getServerSideProps = async (context = {}, files, runtimeOptions = {}) => {
 	const options = deepmerge(runtimeOptions, configOptions);
 	let { apiUri } = options;
 
@@ -21,11 +21,11 @@ const getServerSideProps = async (context, files, runtimeOptions = {}) => {
 
 	// In _app.js, it's appContext.ctx containing the ctx that we need here
 	if (context.ctx) ctx = context.ctx;
-	const { url: currentUrl } = ctx.req;
+	const { url: currentUrl } = ctx.req || {};
 
 	// Prevent from calling itself, ending in an infinite loop
 	// It can happen when using dynamic routing, and ending up with apiUri being catched all the time by this dynamic routing
-	if (currentUrl === apiUri) {
+	if (currentUrl && currentUrl === apiUri) {
 		throw bigError;
 	}
 
@@ -62,8 +62,8 @@ const getServerSideProps = async (context, files, runtimeOptions = {}) => {
 		if (typeof window !== "undefined") {
 			translationsUrl = new URL(apiUri, document.baseURI).href;
 		} else {
-			const { protocol = "http", headers } = req;
-			translationsUrl = url.resolve(`${req.protocol || "http"}://${req.headers.host}`, apiUri);
+			const { headers = {} } = req;
+			translationsUrl = url.resolve(headers.referer, apiUri);
 		}
 	}
 
