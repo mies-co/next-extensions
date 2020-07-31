@@ -15,7 +15,8 @@
 		"watch": "rollup --config ./support/rollup/config.js --watch",
 		"v": "lerna version",
 		"publish.npm": "lerna publish from-git",
-		"publish.github": "lerna publish from-package --registry https://npm.pkg.github.com"
+		"publish.github": "lerna publish from-package --registry https://npm.pkg.github.com",
+		"publish.all": "yarn v && yarn publish.npm && yarn publish.github"
 	},
 	"dependencies": {
 		"@babel/preset-env": "^7.10.4",
