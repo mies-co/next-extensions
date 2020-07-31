@@ -63,7 +63,8 @@ const getServerSideProps = async (context = {}, files, runtimeOptions = {}) => {
 			translationsUrl = new URL(apiUri, document.baseURI).href;
 		} else {
 			const { headers = {} } = req;
-			translationsUrl = url.resolve(headers.referer, apiUri);
+			// In AWS Lambda, the referer would not be there. Fallback to apiUri which will throw an error about using a relative URL.
+			translationsUrl = headers.referer ? url.resolve(headers.referer, apiUri) : apiUri;
 		}
 	}
 
