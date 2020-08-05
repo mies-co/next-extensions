@@ -9,7 +9,7 @@ const Legacy = (props) => {
 	return (
 		<>
 			<h1>Legacy example</h1>
-			<h2 id="x-header-title">{t("header.title")}</h2>
+			<h2 id="x-header-title">{t("header:title")}</h2>
 			<p id="x-greet">{t("greet")}</p>
 			<p id="x-whoami">{t("whoami", { firstname: "Bob" })}</p>
 			<button onClick={() => setLng("en")}>EN</button>
