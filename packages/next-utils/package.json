@@ -1,6 +1,6 @@
 {
 	"name": "@mies-co/next-utils",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Utils for an easier usage of Next.js",
 	"main": "dist/cjs/bundle.js",
 	"author": "Sébastien d'Olbecke <sebastien@mies.co>",
@@ -24,7 +24,6 @@
 		"doc": "embedmd -w readme.md",
 		"doc.install": "go get github.com/campoy/embedmd"
 	},
-	"dependencies": {},
 	"peerDependencies": {
 		"next": ">=9.4.0",
 		"react": ">=16.13.0",
