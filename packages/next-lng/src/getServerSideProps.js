@@ -2,6 +2,8 @@ import url from "url";
 import deepmerge from "deepmerge";
 import nookies from "nookies";
 
+import getAbsoluteUrl from "@mies-co/next-utils/getAbsoluteUrl";
+
 import lngConfig, { demoTranslations } from "./config";
 
 const { languages, options: configOptions = {} } = lngConfig;
@@ -15,7 +17,7 @@ const bigError = new Error(
 
 const getServerSideProps = async (context = {}, files, runtimeOptions = {}) => {
 	const options = deepmerge(runtimeOptions, configOptions);
-	let { apiUri } = options;
+	const { apiUri } = options;
 
 	let ctx = context;
 
@@ -54,21 +56,9 @@ const getServerSideProps = async (context = {}, files, runtimeOptions = {}) => {
 	if (files) body.files = files;
 	if (options) body.options = options;
 
-	// Create an absolute url
-	// Based on apiUrl which can be http://somewhere.com/api/something or just /api/lng
-	let translationsUrl = apiUri;
+	const absUrl = getAbsoluteUrl({ uri: apiUri, req });
 
-	if (!translationsUrl.includes("://")) {
-		if (typeof window !== "undefined") {
-			translationsUrl = new URL(apiUri, document.baseURI).href;
-		} else {
-			const { headers = {} } = req;
-			// In AWS Lambda, the referer would not be there. Fallback to apiUri which will throw an error about using a relative URL.
-			translationsUrl = headers.referer ? url.resolve(headers.referer, apiUri) : apiUri;
-		}
-	}
-
-	const data = await fetch(translationsUrl, {
+	const data = await fetch(absUrl, {
 		method: "post",
 		body: JSON.stringify(body),
 		headers: { "Content-Type": "application/json" },

@@ -70,9 +70,4 @@ const middleware = async (req, res) => {
 	res.end(JSON.stringify({ translations, translationsIncluded }));
 };
 
-// Support commonjs `require('@mies-co/next-lng/middleware')`
-// For usage in custom server
-module.exports = middleware;
-exports = module.exports;
-
 export default middleware;

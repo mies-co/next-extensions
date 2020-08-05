@@ -76,17 +76,21 @@ const withLng = (ComposedComponent, opts = {}) => {
 		// TRANSLATE FUNCTION
 		// ---
 		const t = (key = "", interpolations) => {
-			const keyParts = key.split(".");
-			let filename = keyParts[0];
-			let translationKey = key;
+			const splittedPrefix = key.split(":");
+			const hasPrefix = splittedPrefix.length > 1;
+
+			let filename = hasPrefix ? splittedPrefix[0] : "common";
+
+			const keyParts = hasPrefix ? splittedPrefix[1].split(".") : key.split(".");
+			let translationKey = keyParts.join(".");
 
 			// Not specifying the filename falls back to "common"
 			if (!translationsIncluded.includes(filename)) filename = "common";
-			else if (keyParts.length > 1) translationKey = keyParts.slice(1, keyParts.length).join(".");
 
 			// _APP -> has a language already?
 			const languageToUse = _appLng || lngState;
 			const tp = `${languageToUse}.${filename}.${translationKey}`;
+
 			let translation = get(translations, tp) || "";
 
 			// TRANSLATION STRING INTERPOLATION
