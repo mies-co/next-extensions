@@ -2,6 +2,8 @@ import url from "url";
 import deepmerge from "deepmerge";
 import nookies from "nookies";
 
+import getAbsoluteUrl from "@mies-co/next-utils/getAbsoluteUrl";
+
 import lngConfig, { demoTranslations } from "./config";
 
 const { languages, options: configOptions = {} } = lngConfig;
@@ -13,19 +15,19 @@ const bigError = new Error(
 	"\nError identified by next-lng.\nYour API route to fetch translations might be wrong, or it matched a page that uses dynamic routing.\nThis resulted probably in the page trying to fetch itself."
 );
 
-const getServerSideProps = async (context, files, runtimeOptions = {}) => {
+const getServerSideProps = async (context = {}, files, runtimeOptions = {}) => {
 	const options = deepmerge(runtimeOptions, configOptions);
-	let { apiUri } = options;
+	const { apiUri } = options;
 
 	let ctx = context;
 
 	// In _app.js, it's appContext.ctx containing the ctx that we need here
 	if (context.ctx) ctx = context.ctx;
-	const { url: currentUrl } = ctx.req;
+	const { url: currentUrl } = ctx.req || {};
 
 	// Prevent from calling itself, ending in an infinite loop
 	// It can happen when using dynamic routing, and ending up with apiUri being catched all the time by this dynamic routing
-	if (currentUrl === apiUri) {
+	if (currentUrl && currentUrl === apiUri) {
 		throw bigError;
 	}
 
@@ -54,20 +56,9 @@ const getServerSideProps = async (context, files, runtimeOptions = {}) => {
 	if (files) body.files = files;
 	if (options) body.options = options;
 
-	// Create an absolute url
-	// Based on apiUrl which can be http://somewhere.com/api/something or just /api/lng
-	let translationsUrl = apiUri;
+	const absUrl = getAbsoluteUrl({ uri: apiUri, req });
 
-	if (!translationsUrl.includes("://")) {
-		if (typeof window !== "undefined") {
-			translationsUrl = new URL(apiUri, document.baseURI).href;
-		} else {
-			const { protocol = "http", headers } = req;
-			translationsUrl = url.resolve(`${req.protocol || "http"}://${req.headers.host}`, apiUri);
-		}
-	}
-
-	const data = await fetch(translationsUrl, {
+	const data = await fetch(absUrl, {
 		method: "post",
 		body: JSON.stringify(body),
 		headers: { "Content-Type": "application/json" },

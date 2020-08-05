@@ -1,6 +1,6 @@
 {
 	"name": "@mies-co/next-lng",
-	"version": "0.0.23",
+	"version": "0.0.26",
 	"description": "Use translations within nextjs.",
 	"main": "dist/cjs/bundle.js",
 	"author": "Sébastien d'Olbecke <sebastien@mies.co>",
@@ -9,6 +9,10 @@
 		"url": "https://github.com/mies-co/next-extensions.git",
 		"directory": "packages/next-extensions/next-lng"
 	},
+	"inputs": [
+		"src/index.js",
+		"src/middleware.js"
+	],
 	"publishConfig": {
 		"access": "public"
 	},
@@ -16,10 +20,6 @@
 		"dist/",
 		"middleware.js",
 		"readme.md"
-	],
-	"inputs": [
-		"src/index.js",
-		"src/middleware.js"
 	],
 	"config": {
 		"example": "../../examples/next-lng-example"
@@ -33,6 +33,7 @@
 		"doc.install": "go get github.com/campoy/embedmd"
 	},
 	"dependencies": {
+		"@mies-co/next-utils": "^0.0.2",
 		"deepmerge": "^4.2.2",
 		"glob": "^7.1.6",
 		"lodash": "^4.17.19",

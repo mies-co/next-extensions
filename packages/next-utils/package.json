@@ -1,0 +1,32 @@
+{
+	"name": "@mies-co/next-utils",
+	"version": "0.0.2",
+	"description": "Utils for an easier usage of Next.js",
+	"main": "dist/cjs/bundle.js",
+	"author": "Sébastien d'Olbecke <sebastien@mies.co>",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mies-co/next-extensions.git",
+		"directory": "packages/next-extensions/next-utils"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"files": [
+		"customConsole.js",
+		"getAbsoluteUrl.js",
+		"getRegexMatches.js",
+		"getStackStrace.js",
+		"readme.md"
+	],
+	"config": {},
+	"scripts": {
+		"doc": "embedmd -w readme.md",
+		"doc.install": "go get github.com/campoy/embedmd"
+	},
+	"peerDependencies": {
+		"next": ">=9.4.0",
+		"react": ">=16.13.0",
+		"react-dom": ">=16.13.0"
+	}
+}
