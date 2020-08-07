@@ -34,7 +34,8 @@
 		"doc.install": "go get github.com/campoy/embedmd"
 	},
 	"dependencies": {
-		"@mies-co/next-utils": "*",
+        "@mies-co/next-utils": "*",
+        "cors": "^2.8.5",
 		"deepmerge": "^4.2.2",
 		"dotenv": "^8.2.0"
 	},

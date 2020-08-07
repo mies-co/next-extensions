@@ -9,21 +9,20 @@ const {
 const { serverRuntimeConfig: { secrets = {} } = {} } = getConfig() || {};
 const getSecrets = async ({ req = {} } = {}) => {
 	const absUrl = getAbsoluteUrl({ uri: apiUri, req });
-
 	const bigError = new Error(
-		`\nError identified by next-secrets.\nYour API route ${absUrl} to fetch secrets might be wrong, or it matched a page that uses dynamic routing.\nThis resulted probably in the page trying to fetch itself.`
+		`\nError identified by next-secrets.\nPossible causes:\n- A CORS issue\n- Your API route ${absUrl} to fetch secrets might be wrong, or it matched a page that uses dynamic routing. Resulting probably in the page trying to fetch itself.`
 	);
 
 	let json = {};
 
 	// Browser, let's fetch
 	if (typeof window !== "undefined") {
-		const data = await fetch(absUrl, {
+		const response = await fetch(absUrl, {
 			headers: { "Content-Type": "application/json" },
 		});
 
 		try {
-			json = await data.json();
+			json = await response.json();
 		} catch (err) {
 			console.error(bigError);
 		}
