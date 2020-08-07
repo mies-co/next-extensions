@@ -17,6 +17,7 @@
 		"getAbsoluteUrl.js",
 		"getRegexMatches.js",
 		"getStackStrace.js",
+		"initMiddleware.js",
 		"readme.md"
 	],
 	"config": {},
