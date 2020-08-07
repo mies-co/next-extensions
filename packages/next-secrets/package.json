@@ -1,0 +1,45 @@
+{
+	"name": "@mies-co/next-secrets",
+	"version": "0.0.0",
+	"description": "Manager your secrets in Next.js",
+	"main": "dist/cjs/bundle.js",
+	"author": "Sébastien d'Olbecke <sebastien@mies.co>",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mies-co/next-extensions.git",
+		"directory": "packages/next-extensions/next-secrets"
+	},
+	"inputs": [
+		"src/index.js",
+		"src/middleware.js"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"files": [
+		"dist/",
+		"config.js",
+		"readme.md"
+	],
+	"config": {
+		"example": "../../examples/next-secrets-example"
+	},
+	"scripts": {
+		"x.dev": "yarn --cwd $npm_package_config_example dev",
+		"x.build": "yarn --cwd $npm_package_config_example build",
+		"x.start": "yarn --cwd $npm_package_config_example start",
+		"test": "yarn x.build && mocha",
+		"doc": "embedmd -w readme.md",
+		"doc.install": "go get github.com/campoy/embedmd"
+	},
+	"dependencies": {
+		"@mies-co/next-utils": "*",
+		"deepmerge": "^4.2.2",
+		"dotenv": "^8.2.0"
+	},
+	"peerDependencies": {
+		"next": ">=9.4.0",
+		"react": ">=16.13.0",
+		"react-dom": ">=16.13.0"
+	}
+}
