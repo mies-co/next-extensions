@@ -10,7 +10,7 @@ const {
 
 const { serverRuntimeConfig: { secrets = {} } = {} } = getConfig() || {};
 
-const getSecrets = async ({ req = {} }) => {
+const getSecrets = async ({ req = {} } = {}) => {
 	const absUrl = getAbsoluteUrl({ uri: apiUri, req });
 
 	const bigError = new Error(
