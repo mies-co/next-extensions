@@ -12,7 +12,8 @@ const middleware = async (req, res) => {
 	res.statusCode = 200;
 	res.setHeader("Content-Type", "application/json");
 
-	const { lng = defaultLanguage, files, options } = req.body;
+	const { lng = defaultLanguage, files = [], options } = req.body;
+	let translationsFiles = files;
 	const { shallow } = options;
 
 	const lngPathRelative = lngPath;
@@ -24,26 +25,24 @@ const middleware = async (req, res) => {
 	let filePatterns = [];
 
 	// Default behavior, get current language common.json
-	if (!files) {
-		// let fp = path.resolve(lngPathRelative, lng, "common.json"); // only require current lng?
+	if (!translationsFiles.length) {
 		// TODO implement a way to not provide all languages at once?
-		const fp = path.resolve(lngPathRelative, "*", "common.json");
+		const fp = "*/*.json";
+		translationsFiles = [fp];
+	}
 
-		filePatterns = [fp];
-	} else {
-		for (let i = 0; i < files.length; i++) {
-			let filePattern = files[i];
+	for (let i = 0; i < translationsFiles.length; i++) {
+		let filePattern = translationsFiles[i];
 
-			if (!filePattern.includes("/")) {
-				// For shallow routing, as we don't refetch the server, we need to provide all languages
-				if (shallow) filePattern = `*/${filePattern}`;
-				else filePattern = `${lng}/${filePattern}`;
-			}
-			if (!filePattern.endsWith(".json")) filePattern = `${filePattern}.json`;
-
-			const fp = path.resolve(lngPathRelative, filePattern);
-			filePatterns.push(fp);
+		if (!filePattern.includes("/")) {
+			// For shallow routing, as we don't refetch the server, we need to provide all languages
+			if (shallow) filePattern = `*/${filePattern}`;
+			else filePattern = `${lng}/${filePattern}`;
 		}
+		if (!filePattern.endsWith(".json")) filePattern = `${filePattern}.json`;
+
+		const fp = path.resolve(lngPathRelative, filePattern);
+		filePatterns.push(fp);
 	}
 
 	const translationPaths = filePatterns.reduce((acc, filePattern) => {

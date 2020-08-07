@@ -24,12 +24,14 @@ describe(`MIDDLEWARE`, () => {
 				translations: {
 					en: {
 						common: require(path.resolve(global.lngPath, "en/common.json")),
+						header: require(path.resolve(global.lngPath, "en/header.json")),
 					},
 					fr: {
 						common: require(path.resolve(global.lngPath, "fr/common.json")),
+						header: require(path.resolve(global.lngPath, "fr/header.json")),
 					},
 				},
-				translationsIncluded: ["common"],
+				translationsIncluded: ["common", "header"],
 			};
 
 			res.body.should.deep.equal(good);

@@ -1,13 +1,13 @@
 {
-	"name": "@mies-co/next-lng",
-	"version": "0.0.28",
-	"description": "Use translations within nextjs.",
+	"name": "@mies-co/next-secrets",
+	"version": "0.0.1",
+	"description": "Manager your secrets in Next.js",
 	"main": "dist/cjs/bundle.js",
 	"author": "Sébastien d'Olbecke <sebastien@mies.co>",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/mies-co/next-extensions.git",
-		"directory": "packages/next-extensions/next-lng"
+		"directory": "packages/next-extensions/next-secrets"
 	},
 	"inputs": [
 		"src/index.js",
@@ -18,11 +18,11 @@
 	},
 	"files": [
 		"dist/",
-		"middleware.js",
+		"config.js",
 		"readme.md"
 	],
 	"config": {
-		"example": "../../examples/next-lng-example"
+		"example": "../../examples/next-secrets-example"
 	},
 	"scripts": {
 		"x.dev": "yarn --cwd $npm_package_config_example dev",
@@ -33,18 +33,9 @@
 		"doc.install": "go get github.com/campoy/embedmd"
 	},
 	"dependencies": {
-		"@mies-co/next-utils": "^0.0.2",
+		"@mies-co/next-utils": "*",
 		"deepmerge": "^4.2.2",
-		"glob": "^7.1.6",
-		"lodash": "^4.17.19",
-		"nookies": "^2.3.2"
-	},
-	"devDependencies": {
-		"chai": "^4.2.0",
-		"chai-http": "^4.3.0",
-		"esm": "^3.2.25",
-		"mocha": "^8.0.1",
-		"puppeteer": "^5.2.0"
+		"dotenv": "^8.2.0"
 	},
 	"peerDependencies": {
 		"next": ">=9.4.0",
