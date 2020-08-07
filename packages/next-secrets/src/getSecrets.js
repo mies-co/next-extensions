@@ -1,5 +1,4 @@
 import getConfig from "next/config";
-
 import getAbsoluteUrl from "@mies-co/next-utils/getAbsoluteUrl";
 
 import secretsConfig from "./config";
@@ -7,10 +6,8 @@ import secretsConfig from "./config";
 const {
 	options: { apiUri, shallow },
 } = secretsConfig;
-
 const { serverRuntimeConfig: { secrets = {} } = {} } = getConfig() || {};
-
-const getSecrets = async ({ req = {} }) => {
+const getSecrets = async ({ req = {} } = {}) => {
 	const absUrl = getAbsoluteUrl({ uri: apiUri, req });
 
 	const bigError = new Error(
