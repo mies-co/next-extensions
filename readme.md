@@ -8,6 +8,12 @@ Extend your Next.js app features easily.
 
 Extend your app with [antd](https://github.com/ant-design/ant-design)
 
+## [Next-Secrets](https://github.com/mies-co/next-extensions/tree/master/packages/next-secrets) 
+
+[![Package Quality](https://npm.packagequality.com/shield/@mies-co%2Fnext-secrets.svg)](https://packagequality.com/#?package=@mies-co/next-secrets)
+
+Easily get your secrets from the server.
+
 ## [Next-Styled-Components](https://github.com/mies-co/next-extensions/tree/master/packages/next-styled-components)
 
 [![Package Quality](https://npm.packagequality.com/shield/@mies-co%2Fnext-styled-components.svg)](https://packagequality.com/#?package=@mies-co/next-styled-components)
