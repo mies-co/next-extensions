@@ -1,8 +1,18 @@
 import getConfig from "next/config";
 
+import getAbsoluteUrl from "@mies-co/next-utils/getAbsoluteUrl";
+
+import secretsConfig from "./config";
+
+const {
+	options: { apiUri, shallow },
+} = secretsConfig;
+
 const { serverRuntimeConfig: { secrets = {} } = {} } = getConfig() || {};
 
-const getSecrets = async ({ url: absUrl }) => {
+const getSecrets = async ({ req = {} }) => {
+	const absUrl = getAbsoluteUrl({ uri: apiUri, req });
+
 	const bigError = new Error(
 		`\nError identified by next-secrets.\nYour API route ${absUrl} to fetch secrets might be wrong, or it matched a page that uses dynamic routing.\nThis resulted probably in the page trying to fetch itself.`
 	);
