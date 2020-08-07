@@ -6,7 +6,7 @@ Keep your secrets secret in Next.js.
 
 ## Example
 
-[See an example app here](https://github.com/mies-co/next-extensions/tree/master/examples/next-secrets)
+[See an example app here](https://github.com/mies-co/next-extensions/tree/master/examples/next-secrets-example)
 
 ## Installation
 
