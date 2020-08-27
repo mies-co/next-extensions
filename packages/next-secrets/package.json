@@ -1,6 +1,6 @@
 {
 	"name": "@mies-co/next-secrets",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "Manager your secrets in Next.js",
 	"main": "dist/cjs/bundle.js",
 	"author": "Sébastien d'Olbecke <sebastien@mies.co>",
@@ -34,7 +34,7 @@
 		"doc.install": "go get github.com/campoy/embedmd"
 	},
 	"dependencies": {
-		"@mies-co/next-utils": "^0.0.3",
+		"@mies-co/next-utils": "^0.0.4",
 		"cors": "^2.8.5",
 		"deepmerge": "^4.2.2",
 		"dotenv": "^8.2.0"
