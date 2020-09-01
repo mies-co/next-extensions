@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@mies-co/next-styled-components": "*",
-    "next": "^9.4.0",
+    "next": "^9.5.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "styled-components": "^5.1.0"
