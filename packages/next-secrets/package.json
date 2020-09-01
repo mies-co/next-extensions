@@ -29,7 +29,7 @@
 		"doc.install": "go get github.com/campoy/embedmd"
 	},
 	"dependencies": {
-		"@mies-co/next-utils": "^0.0.4",
+		"@mies-co/next-utils": "^0.0.5",
 		"dotenv": "^8.2.0",
 		"hoist-non-react-statics": "^3.3.2"
 	},
