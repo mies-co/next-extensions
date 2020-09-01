@@ -7,8 +7,12 @@ import * as React from "react";
 const SecretsContext = React.createContext({});
 export const useSecrets = () => React.useContext(SecretsContext);
 
+export const getSecrets = () => {
+	return dotenv.config()?.parsed || {};
+};
+
 export const getServerSidePropsSecrets = () => {
-	const secrets = dotenv.config()?.parsed;
+	const secrets = getSecrets();
 	return { props: { secrets } };
 };
 
@@ -29,9 +33,7 @@ const withSecrets = ComposedComponent => {
 	};
 
 	WithSecrets.getInitialProps = mergeInitialProps(ComposedComponent, async (context, initialProps) => {
-		const {
-			props: { secrets }
-		} = await getServerSidePropsSecrets();
+		const secrets = getSecrets();
 
 		return {
 			...initialProps,
