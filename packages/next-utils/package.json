@@ -18,7 +18,7 @@
 		"getRegexMatches.js",
 		"getStackStrace.js",
 		"initMiddleware.js",
-		"readme.md"
+		"mergeInitialProps.js"
 	],
 	"config": {},
 	"scripts": {
