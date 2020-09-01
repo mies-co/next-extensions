@@ -12,7 +12,7 @@ Extend your app with [antd](https://github.com/ant-design/ant-design)
 
 [![Package Quality](https://npm.packagequality.com/shield/@mies-co%2Fnext-secrets.svg)](https://packagequality.com/#?package=@mies-co/next-secrets)
 
-Easily get your secrets from the server.
+Easily get your secrets.
 
 ## [Next-Styled-Components](https://github.com/mies-co/next-extensions/tree/master/packages/next-styled-components)
 
