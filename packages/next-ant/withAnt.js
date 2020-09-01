@@ -2,10 +2,10 @@ const fs = require("fs");
 const path = require("path");
 
 const defaultAntConfig = {
-	theme: "./public/static/styles/theme.scss",
+	theme: "./public/static/styles/theme.scss"
 };
 
-const checkFileExists = (p) => {
+const checkFileExists = p => {
 	try {
 		if (fs.existsSync(p)) return true;
 		return false;
@@ -14,7 +14,7 @@ const checkFileExists = (p) => {
 	}
 };
 
-const getAppConfigWithAnt = (customAppConfig) => {
+const getAppConfigWithAnt = customAppConfig => {
 	// They are here so we can skip node-sass in our Serverless deployment
 	const withCss = require("@zeit/next-css");
 	const withLess = require("@zeit/next-less");
@@ -27,7 +27,7 @@ const getAppConfigWithAnt = (customAppConfig) => {
 
 	appConfig.ant = {
 		...defaultAntConfig,
-		...(appConfig.ant || {}),
+		...(appConfig.ant || {})
 	};
 
 	const { webpack: customWebpackFunctionFromApp } = appConfig;
@@ -42,10 +42,10 @@ const getAppConfigWithAnt = (customAppConfig) => {
 	if (styleFileExists) {
 		renderedStyles = sassExtract.renderSync(
 			{
-				file: appConfig.ant.theme,
+				file: appConfig.ant.theme
 			},
 			{
-				plugins: [{ plugin: "sass-extract-js", options: { camelCase: true } }],
+				plugins: [{ plugin: "sass-extract-js", options: { camelCase: true } }]
 			}
 		);
 	}
@@ -54,11 +54,11 @@ const getAppConfigWithAnt = (customAppConfig) => {
 		withSass(
 			withLess({
 				lessLoaderOptions: {
-					javascriptEnabled: true,
+					javascriptEnabled: true
 					// modifyVars: themeVariables, // make your antd custom effective
 				},
-				webpack: (config, nextConfig) => {
-					const { isServer, webpack } = nextConfig;
+				webpack: (config, options) => {
+					const { isServer, webpack } = options;
 
 					if (!config.plugins) config.plugins = [];
 
@@ -69,7 +69,7 @@ const getAppConfigWithAnt = (customAppConfig) => {
 					// Make a theme object globally available
 					config.plugins.push(
 						new webpack.DefinePlugin({
-							theme: JSON.stringify(renderedStyles.vars || {}),
+							theme: JSON.stringify(renderedStyles.vars || {})
 						})
 					);
 
@@ -89,12 +89,12 @@ const getAppConfigWithAnt = (customAppConfig) => {
 									callback();
 								}
 							},
-							...(typeof originalExternals[0] === "function" ? [] : originalExternals),
+							...(typeof originalExternals[0] === "function" ? [] : originalExternals)
 						];
 
 						config.module.rules.unshift({
 							test: antStyles,
-							use: "null-loader",
+							use: "null-loader"
 						});
 					}
 
@@ -103,7 +103,7 @@ const getAppConfigWithAnt = (customAppConfig) => {
 
 						if (t.includes("scss") || t.includes("sass") || t.includes("less")) {
 							if (Array.isArray(rule.use))
-								rule.use = rule.use.map((u) => {
+								rule.use = rule.use.map(u => {
 									if (u === "sass-loader" || u === "less-loader") u = AntdScssThemePlugin.themify(u);
 									else if (typeof u === "object" && (u.loader === "sass-loader" || u.loader === "less-loader")) u = AntdScssThemePlugin.themify(u);
 									return u;
@@ -117,11 +117,11 @@ const getAppConfigWithAnt = (customAppConfig) => {
 
 					// When next.config.js provides a webpack function in its config
 					if (typeof customWebpackFunctionFromApp === "function") {
-						config = customWebpackFunctionFromApp(config, nextConfig) || config;
+						config = customWebpackFunctionFromApp(config, options) || config;
 					}
 
 					return config;
-				},
+				}
 			})
 		)
 	);
@@ -134,7 +134,7 @@ const withAnt = (customAppConfig = {}) => {
 
 	return {
 		...appConfig,
-		...appConfigWithAnt,
+		...appConfigWithAnt
 	};
 };
 
