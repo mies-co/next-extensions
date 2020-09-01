@@ -1,3 +1,5 @@
+import mergeInitialProps from "@mies-co/next-utils/mergeInitialProps";
+
 import dotenv from "dotenv";
 import hoistNonReactStatics from "hoist-non-react-statics";
 import * as React from "react";
@@ -26,17 +28,18 @@ const withSecrets = ComposedComponent => {
 		secrets: {}
 	};
 
-	WithSecrets.getInitialProps = async context => {
+	WithSecrets.getInitialProps = mergeInitialProps(ComposedComponent, async (context, initialProps) => {
 		const {
 			props: { secrets }
-		} = getServerSidePropsSecrets();
+		} = await getServerSidePropsSecrets();
 
 		return {
+			...initialProps,
 			secrets
 		};
-	};
+	});
 
-	return hoistNonReactStatics(WithSecrets, ComposedComponent);
+	return hoistNonReactStatics(WithSecrets, ComposedComponent, { getInitialProps: true });
 };
 
 export default withSecrets;
