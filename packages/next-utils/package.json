@@ -1,6 +1,6 @@
 {
 	"name": "@mies-co/next-utils",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "Utils for an easier usage of Next.js",
 	"main": "dist/cjs/bundle.js",
 	"author": "Sébastien d'Olbecke <sebastien@mies.co>",

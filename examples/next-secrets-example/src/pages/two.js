@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-import { withSecrets, getServerSideProps, useSecrets } from "@mies-co/next-secrets";
+import { useSecrets } from "@mies-co/next-secrets";
 
-const Two = () => {
+const Two = props => {
 	const { MY_SECOND_SECRET } = useSecrets();
 	return (
 		<div>
@@ -14,10 +14,4 @@ const Two = () => {
 	);
 };
 
-Two.getInitialProps = () => {
-	return {
-		// Some random props that you would pass from getInitialProps
-		hello: "world",
-	};
-};
-export default withSecrets(Two);
+export default Two;

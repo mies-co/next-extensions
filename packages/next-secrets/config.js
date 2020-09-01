@@ -1,17 +1,25 @@
-const deepmerge = require("deepmerge");
-const dotenv = require("dotenv");
+const withSecretsConfig = customAppConfig => {
+	const { webpack: customWebpackFunctionFromApp } = customAppConfig;
 
-const { parsed: secrets = {} } = dotenv.config();
+	return {
+		webpack: (config, options) => {
+			const { isServer } = options;
 
-// Adds secrets to serverRuntimeConfig
-const withSecretsConfig = (customAppConfig = {}) => {
-	const configWithSecrets = {
-		serverRuntimeConfig: {
-			secrets,
-		},
+			// Fixes npm packages that depend on `fs` module
+			if (!isServer) {
+				config.node = {
+					fs: "empty"
+				};
+			}
+
+			// When next.config.js provides a webpack function in its config
+			if (typeof customWebpackFunctionFromApp === "function") {
+				config = customWebpackFunctionFromApp(config, options) || config;
+			}
+
+			return config;
+		}
 	};
-
-	return deepmerge(customAppConfig, configWithSecrets);
 };
 
 module.exports = withSecretsConfig;

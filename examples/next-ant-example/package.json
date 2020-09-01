@@ -12,8 +12,8 @@
   "dependencies": {
     "@mies-co/next-ant": "*",
     "antd": "^4.0.3",
-    "next": "^9.4.0",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0"
+    "next": "^9.5.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   }
 }
