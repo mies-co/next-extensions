@@ -1,6 +1,6 @@
 {
 	"name": "@mies-co/next-utils",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "Utils for an easier usage of Next.js",
 	"main": "dist/cjs/bundle.js",
 	"author": "Sébastien d'Olbecke <sebastien@mies.co>",
@@ -18,7 +18,7 @@
 		"getRegexMatches.js",
 		"getStackStrace.js",
 		"initMiddleware.js",
-		"readme.md"
+		"mergeInitialProps.js"
 	],
 	"config": {},
 	"scripts": {
