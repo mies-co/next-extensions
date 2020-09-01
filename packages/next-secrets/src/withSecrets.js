@@ -1,18 +1,20 @@
-import path from "path";
-
+import dotenv from "dotenv";
+import hoistNonReactStatics from "hoist-non-react-statics";
 import * as React from "react";
-import get from "lodash/get";
-
-import getSecrets from "./getSecrets";
 
 const SecretsContext = React.createContext({});
-
 export const useSecrets = () => React.useContext(SecretsContext);
 
-const withSecrets = (ComposedComponent) => {
-	const ComposedWithSecrets = (props) => {
-		const { secrets, url, ...rest } = props;
-		const copiedSecrets = secrets;
+export const getServerSidePropsSecrets = () => {
+	const secrets = dotenv.config()?.parsed;
+	return { props: { secrets } };
+};
+
+const withSecrets = ComposedComponent => {
+	const WithSecrets = props => {
+		const { secrets: _secrets, ...rest } = props;
+		const [secrets, setSecrets] = React.useState(_secrets);
+
 		return (
 			<SecretsContext.Provider value={secrets}>
 				<ComposedComponent secrets={secrets} {...rest} />
@@ -20,19 +22,21 @@ const withSecrets = (ComposedComponent) => {
 		);
 	};
 
-	if (ComposedComponent.getInitialProps) {
-		ComposedWithSecrets.getInitialProps = async (ctx) => {
-			const composedInitialProps = await ComposedComponent.getInitialProps(ctx);
-			const secrets = await getSecrets({ req: ctx.req });
+	WithSecrets.defaultProps = {
+		secrets: {}
+	};
 
-			return {
-				...composedInitialProps,
-				secrets,
-			};
+	WithSecrets.getInitialProps = async context => {
+		const {
+			props: { secrets }
+		} = getServerSidePropsSecrets();
+
+		return {
+			secrets
 		};
-	}
+	};
 
-	return ComposedWithSecrets;
+	return hoistNonReactStatics(WithSecrets, ComposedComponent);
 };
 
 export default withSecrets;

@@ -9,17 +9,12 @@
 		"url": "https://github.com/mies-co/next-extensions.git",
 		"directory": "packages/next-extensions/next-secrets"
 	},
-	"inputs": [
-		"src/index.js",
-		"src/middleware.js"
-	],
 	"publishConfig": {
 		"access": "public"
 	},
 	"files": [
 		"dist/",
 		"config.js",
-		"middleware.js",
 		"readme.md"
 	],
 	"config": {
@@ -35,12 +30,11 @@
 	},
 	"dependencies": {
 		"@mies-co/next-utils": "^0.0.4",
-		"cors": "^2.8.5",
-		"deepmerge": "^4.2.2",
-		"dotenv": "^8.2.0"
+		"dotenv": "^8.2.0",
+		"hoist-non-react-statics": "^3.3.2"
 	},
 	"peerDependencies": {
-		"next": ">=9.4.0",
+		"next": ">=9.5.2",
 		"react": ">=16.13.0",
 		"react-dom": ">=16.13.0"
 	}
