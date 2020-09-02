@@ -1,35 +1,88 @@
+import fs from "fs";
+import path from "path";
 import url from "url";
+import glob from "glob";
+
 import deepmerge from "deepmerge";
 import nookies from "nookies";
 
 import getAbsoluteUrl from "@mies-co/next-utils/getAbsoluteUrl";
 
-import lngConfig, { demoTranslations } from "./config";
+import lngConfig, { demoTranslations } from "./lngConfig";
 
-const { languages, options: configOptions = {} } = lngConfig;
+const { languages = ["en"], path: lngPath = "public/static/translations", options: configOptions = {} } = lngConfig;
 const defaultLanguage = languages[0];
 
 let previousLng = defaultLanguage;
 
-const bigError = new Error(
-	"\nError identified by next-lng.\nYour API route to fetch translations might be wrong, or it matched a page that uses dynamic routing.\nThis resulted probably in the page trying to fetch itself."
-);
+export const getTranslationsFromFiles = ({ lng = defaultLanguage, files = [], options }) => {
+	let translationsFiles = files;
+	const { shallow } = options;
+
+	const lngPathRelative = lngPath;
+	const lngPathAbsolute = path.resolve(lngPathRelative);
+
+	// Get all translation files -> [/Abs/path/to/fr/common.json] // -> [fr/common.json]
+	const existingFiles = glob(path.resolve(`${lngPathRelative}/*/*.json`), { sync: true }); // .map((x) => x.replace(path.resolve(lngPathRelative), "").substr(1)); // mark: false, removes end / on directories
+
+	let filePatterns = [];
+
+	// Default behavior, get current language common.json
+	if (!translationsFiles.length) {
+		// TODO implement a way to not provide all languages at once?
+		const fp = "*/*.json";
+		translationsFiles = [fp];
+	}
+
+	for (let i = 0; i < translationsFiles.length; i++) {
+		let filePattern = translationsFiles[i];
+
+		if (!filePattern.includes("/")) {
+			// For shallow routing, as we don't refetch the server, we need to provide all languages
+			if (shallow) filePattern = `*/${filePattern}`;
+			else filePattern = `${lng}/${filePattern}`;
+		}
+		if (!filePattern.endsWith(".json")) filePattern = `${filePattern}.json`;
+
+		const fp = path.resolve(lngPathRelative, filePattern);
+		filePatterns.push(fp);
+	}
+
+	const translationPaths = filePatterns.reduce((acc, filePattern) => {
+		acc = acc.concat(glob(filePattern, { sync: true }));
+		return acc;
+	}, []);
+
+	let translations = {};
+	const translationsIncluded = [];
+
+	for (let i = 0; i < translationPaths.length; i++) {
+		const translationPath = translationPaths[i];
+		const { name: filename } = path.parse(translationPath);
+		if (!translationsIncluded.includes(filename)) translationsIncluded.push(filename);
+
+		const language = translationPath
+			.replace(lngPathAbsolute, "")
+			.substr(1)
+			.split("/")[0];
+		if (!translations[language]) translations[language] = {};
+
+		// As this is used in next.js bundled by webpack, require should be replaced by __non_webpack_require__
+		// translations[language][filename] = require(translationPath);
+		translations[language][filename] = JSON.parse(fs.readFileSync(translationPath, "utf8"));
+	}
+
+	return { translations, translationsIncluded };
+};
 
 const getServerSideProps = async (context = {}, files, runtimeOptions = {}) => {
 	const options = deepmerge(runtimeOptions, configOptions);
-	const { apiUri } = options;
 
 	let ctx = context;
 
 	// In _app.js, it's appContext.ctx containing the ctx that we need here
 	if (context.ctx) ctx = context.ctx;
 	const { url: currentUrl } = ctx.req || {};
-
-	// Prevent from calling itself, ending in an infinite loop
-	// It can happen when using dynamic routing, and ending up with apiUri being catched all the time by this dynamic routing
-	if (currentUrl && currentUrl === apiUri) {
-		throw bigError;
-	}
 
 	const { cookie: cookieOptions } = options;
 
@@ -50,36 +103,14 @@ const getServerSideProps = async (context = {}, files, runtimeOptions = {}) => {
 		}
 	}
 
-	// FETCH API ROUTE
-	// ---
-	const body = { lng };
-	if (files) body.files = files;
-	if (options) body.options = options;
-
-	const absUrl = getAbsoluteUrl({ uri: apiUri, req });
-
-	const data = await fetch(absUrl, {
-		method: "post",
-		body: JSON.stringify(body),
-		headers: { "Content-Type": "application/json" },
-	});
-
-	let json = {};
-	try {
-		json = await data.json();
-	} catch (err) {
-		console.error(bigError);
-	}
-
-	const { translations, translationsIncluded } = json;
-
+	const { translations, translationsIncluded } = getTranslationsFromFiles({ lng, files, options });
 	return {
 		props: {
 			lng,
 			translations,
 			translationsIncluded,
-			options,
-		},
+			options
+		}
 	};
 };
 
