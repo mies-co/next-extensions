@@ -8,25 +8,21 @@ const prefixPathWithLng = ({ lng, path = "" }) => {
 	return path;
 };
 
-const CustomLink = (props) => {
+const CustomLink = props => {
 	const { lng } = useLng();
-	// TODO - enable params, like next-routes, as well as named routes
-	let { href, as, ...rest } = props;
+	let { href, as, children, ...rest } = props;
 
 	// Then it means href is the as
 	if (!as) {
-		href = prefixPathWithLng({ lng, path: href });
+		as = prefixPathWithLng({ lng, path: href });
 	} else {
-		href = prefixPathWithLng({ lng: "[lng]", path: href });
 		as = prefixPathWithLng({ lng, path: as });
 	}
-
-	const compatibleProps = { href: { pathname: href }, passHref: true };
-	if (as) compatibleProps.as = as;
+	href = prefixPathWithLng({ lng: "[lng]", path: href });
 
 	return (
-		<Link {...compatibleProps} {...rest}>
-			{props.children}
+		<Link href={href} as={as} passHref={true} shallow={false} {...rest}>
+			{children}
 		</Link>
 	);
 };
