@@ -25,7 +25,7 @@ const lngConfigDefault = {
 	languages: ["en"],
 	path: "public/static/translations",
 	options: {
-		shallow: true,
+		shallow: false,
 		cookie: {
 			name: "next-lng",
 			path: "/",

@@ -21,7 +21,6 @@ const LngContext = React.createContext({
 export const useLng = () => React.useContext(LngContext);
 
 const withLng = (ComposedComponent, opts = {}) => {
-	// TODO - with require.resolve, check if getServerSideProps is exported if missing ComposedComponent.getInitialProps
 	const ComposedWithLng = props => {
 		// _APP -> already wrapped in withLng?
 		const { useLng = () => ({}) } = props;
@@ -31,7 +30,7 @@ const withLng = (ComposedComponent, opts = {}) => {
 		const { query = {} } = router;
 
 		const { lng: lngQuery = query.lng, translations, translationsIncluded = [], options = {}, ...rest } = props;
-		const { shallow = true, ...opts } = options;
+		const { shallow = false, ...opts } = options;
 
 		const [lngState, setLngState] = React.useState(lngQuery);
 		const lng = lngState;
@@ -40,7 +39,6 @@ const withLng = (ComposedComponent, opts = {}) => {
 			const regex = new RegExp(`^/(${languages.join("|")})`);
 			const lngPath = router.asPath.replace(regex, `/${newLng}`);
 
-			// TODO if shallow is true, get the files for all languages... On-demand is not possible yet with shallow: true.
 			router.replace(router.pathname, lngPath, { shallow });
 		};
 
