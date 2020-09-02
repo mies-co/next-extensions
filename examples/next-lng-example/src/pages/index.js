@@ -1,20 +1,12 @@
+import { useLng } from "@mies-co/next-lng";
 import React from "react";
 import Head from "next/head";
 
-import getConfig from "next/config";
+const Index = ({ defaultLanguage }) => {
+	const { lngDefault } = useLng();
 
-const {
-	publicRuntimeConfig: {
-		lngConfig: { languages },
-	},
-} = getConfig();
-
-const defaultLanguage = languages[0];
-
-// Just redirect to our /[lng] page somehow
-const Index = () => {
 	React.useEffect(() => {
-		window.location.replace(`/${defaultLanguage}`);
+		window.location.replace(`/${lngDefault}`);
 	});
 
 	return (

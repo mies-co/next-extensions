@@ -6,7 +6,7 @@ import nookies from "nookies";
 
 import * as React from "react";
 
-import lngConfig, { demoTranslations } from "./config";
+import lngConfig, { demoTranslations } from "./lngConfig";
 import interpolate from "./utils/interpolate";
 import getTranslations from "./getTranslations";
 
@@ -15,14 +15,14 @@ const defaultLanguage = languages[0];
 
 const LngContext = React.createContext({
 	lng: defaultLanguage,
-	setLng: () => null,
+	setLng: () => null
 });
 
 export const useLng = () => React.useContext(LngContext);
 
 const withLng = (ComposedComponent, opts = {}) => {
 	// TODO - with require.resolve, check if getServerSideProps is exported if missing ComposedComponent.getInitialProps
-	const ComposedWithLng = (props) => {
+	const ComposedWithLng = props => {
 		// _APP -> already wrapped in withLng?
 		const { useLng = () => ({}) } = props;
 		const { lng: _appLng, setLng: _setAppLng } = useLng();
@@ -36,7 +36,7 @@ const withLng = (ComposedComponent, opts = {}) => {
 		const [lngState, setLngState] = React.useState(lngQuery);
 		const lng = lngState;
 
-		const routePush = (newLng) => {
+		const routePush = newLng => {
 			const regex = new RegExp(`^/(${languages.join("|")})`);
 			const lngPath = router.asPath.replace(regex, `/${newLng}`);
 
@@ -46,7 +46,7 @@ const withLng = (ComposedComponent, opts = {}) => {
 
 		// LANGUAGE CHANGE
 		// ---
-		const setLng = (newLng) => {
+		const setLng = newLng => {
 			if (!newLng) return;
 
 			const cookies = nookies.get();
@@ -55,7 +55,7 @@ const withLng = (ComposedComponent, opts = {}) => {
 			if (!cookies["next-lng"] || cookies["next-lng"] !== newLng) {
 				nookies.set(null, "next-lng", newLng, {
 					maxAge: 30 * 24 * 60 * 60,
-					path: "/",
+					path: "/"
 				});
 			}
 
@@ -103,7 +103,7 @@ const withLng = (ComposedComponent, opts = {}) => {
 		};
 
 		return (
-			<LngContext.Provider value={{ lng, setLng, t }}>
+			<LngContext.Provider value={{ lng, setLng, t, lngDefault: languages[0] }}>
 				{/* Props are passed here because so they can be used in class Components (hooks won't work in a class) */}
 				<ComposedComponent t={t} lng={lng} setLng={setLng} {...rest} />
 			</LngContext.Provider>
@@ -111,11 +111,11 @@ const withLng = (ComposedComponent, opts = {}) => {
 	};
 
 	ComposedWithLng.defaultProps = {
-		translations: demoTranslations,
+		translations: demoTranslations
 	};
 
 	if (ComposedComponent.getInitialProps) {
-		ComposedWithLng.getInitialProps = async (ctx) => {
+		ComposedWithLng.getInitialProps = async ctx => {
 			let composedInitialProps = {};
 			composedInitialProps = await ComposedComponent.getInitialProps(ctx);
 
@@ -125,7 +125,7 @@ const withLng = (ComposedComponent, opts = {}) => {
 
 			return {
 				...composedInitialProps,
-				...lngProps,
+				...lngProps
 			};
 		};
 	}

@@ -1,6 +1,6 @@
 {
 	"name": "@mies-co/next-utils",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"description": "Utils for an easier usage of Next.js",
 	"main": "dist/cjs/bundle.js",
 	"author": "Sébastien d'Olbecke <sebastien@mies.co>",
@@ -24,6 +24,9 @@
 	"scripts": {
 		"doc": "embedmd -w readme.md",
 		"doc.install": "go get github.com/campoy/embedmd"
+	},
+	"dependencies": {
+		"deepmerge": "^4.2.2"
 	},
 	"peerDependencies": {
 		"next": ">=9.4.0",
