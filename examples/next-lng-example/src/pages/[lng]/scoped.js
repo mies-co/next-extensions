@@ -22,7 +22,7 @@ const Scoped = () => {
 // Arguments:
 // [0] - a string or string[] of globs
 // [1] - an object that overrides the default `options` defined in next.config.js
-const getServerSideProps = getTranslations(["*/common", "header"], { shallow: true });
+const getServerSideProps = getTranslations(["*/common", "header"], { shallow: false });
 export { getServerSideProps };
 
 export default withLng(Scoped);
