@@ -2,6 +2,7 @@ const path = require("path");
 const http = require("http");
 const next = require("next");
 
+// pkg.config.example
 const dir = global.examplePath; // defined in main test provider
 
 const createServer = async ({ port = parseInt(process.env.PORT) || 9000, dev = process.env.NODE_ENV !== "production" } = {}) => {

@@ -38,7 +38,7 @@ describe("PAGES", () => {
 			await page.goto("http://localhost:9000/", { waitUntil: "load" });
 			evaluatedPage = await page.evaluate(() => {
 				return {
-					basic: (document.querySelector("#x-basic") || {}).innerHTML,
+					basic: (document.querySelector("#x-basic") || {}).innerHTML
 				};
 			});
 			// const html = await page.content();
@@ -57,7 +57,7 @@ describe("PAGES", () => {
 		const common = path.resolve(global.lngPath, lng, "common.json");
 
 		const translations = {
-			common: require(common),
+			common: require(common)
 		};
 
 		before(async () => {
@@ -66,7 +66,7 @@ describe("PAGES", () => {
 			evaluatedPage = await page.evaluate(() => {
 				return {
 					greet: (document.querySelector("#x-greet") || {}).innerHTML,
-					whoami: (document.querySelector("#x-whoami") || {}).innerHTML,
+					whoami: (document.querySelector("#x-whoami") || {}).innerHTML
 				};
 			});
 		});
@@ -91,7 +91,7 @@ describe("PAGES", () => {
 
 		const fr = {
 			common: require(common),
-			header: require(header),
+			header: require(header)
 		};
 
 		before(async () => {
@@ -101,7 +101,7 @@ describe("PAGES", () => {
 				return {
 					"header-title": (document.querySelector("#x-header-title") || {}).innerHTML,
 					greet: (document.querySelector("#x-greet") || {}).innerHTML,
-					whoami: (document.querySelector("#x-whoami") || {}).innerHTML,
+					whoami: (document.querySelector("#x-whoami") || {}).innerHTML
 				};
 			});
 
@@ -140,7 +140,7 @@ describe("PAGES", () => {
 
 		const fr = {
 			common: require(common),
-			header: require(header),
+			header: require(header)
 		};
 
 		before(async () => {
@@ -150,7 +150,7 @@ describe("PAGES", () => {
 				return {
 					"header-title": (document.querySelector("#x-header-title") || {}).innerHTML,
 					greet: (document.querySelector("#x-greet") || {}).innerHTML,
-					whoami: (document.querySelector("#x-whoami") || {}).innerHTML,
+					whoami: (document.querySelector("#x-whoami") || {}).innerHTML
 				};
 			});
 

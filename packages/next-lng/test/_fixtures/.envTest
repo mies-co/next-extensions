@@ -1,0 +1,16 @@
+LNG_LANGUAGES=en,fr
+
+# default
+LNG_PATH=public/static/translations
+
+# default
+LNG_SHALLOW=true
+
+# default
+LNG_COOKIE_NAME=next-lng
+
+# default
+LNG_COOKIE_PATH=/
+
+# default
+LNG_COOKIE_MAX_AGE=2592000
