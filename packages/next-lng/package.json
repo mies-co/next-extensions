@@ -17,7 +17,7 @@
 	},
 	"files": [
 		"dist/",
-		"readme.md"
+		"config.js"
 	],
 	"config": {
 		"example": "../../examples/next-lng-example"
