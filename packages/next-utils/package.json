@@ -25,6 +25,9 @@
 		"doc": "embedmd -w readme.md",
 		"doc.install": "go get github.com/campoy/embedmd"
 	},
+	"dependencies": {
+		"deepmerge": "^4.2.2"
+	},
 	"peerDependencies": {
 		"next": ">=9.4.0",
 		"react": ">=16.13.0",
