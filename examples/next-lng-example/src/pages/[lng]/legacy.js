@@ -25,7 +25,7 @@ Legacy.getInitialProps = async () => {
 		// This is only if you want to use scoped translations or customize the options. Otherwise don't even return anything.
 		lng: {
 			scope: ["*/common", "header"],
-			options: { shallow: true },
+			options: { shallow: false },
 		},
 	};
 };

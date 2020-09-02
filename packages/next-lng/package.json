@@ -1,6 +1,6 @@
 {
 	"name": "@mies-co/next-lng",
-	"version": "0.0.34",
+	"version": "0.0.38",
 	"description": "Use translations within nextjs.",
 	"main": "dist/cjs/bundle.js",
 	"author": "Sébastien d'Olbecke <sebastien@mies.co>",
@@ -17,7 +17,7 @@
 	},
 	"files": [
 		"dist/",
-		"readme.md"
+		"config.js"
 	],
 	"config": {
 		"example": "../../examples/next-lng-example"
@@ -31,7 +31,7 @@
 		"doc.install": "go get github.com/campoy/embedmd"
 	},
 	"dependencies": {
-		"@mies-co/next-utils": "^0.0.8",
+		"@mies-co/next-utils": "^0.0.9",
 		"deepmerge": "^4.2.2",
 		"glob": "^7.1.6",
 		"lodash": "^4.17.19",

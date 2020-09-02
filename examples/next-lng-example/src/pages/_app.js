@@ -27,7 +27,7 @@ MyApp.getInitialProps = async (appContext) => {
 	return {
 		...appProps,
 		lng: {
-			// options: { shallow: true },
+			// options: { shallow: false },
 		},
 	};
 };

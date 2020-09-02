@@ -5,6 +5,7 @@
 	"description": "An example app using next-secrets",
 	"license": "MIT",
 	"scripts": {
+		"postinstall": "cp -n .env.sample .env || echo Please copy the contents of .env.sample to .env",
 		"dev": "next",
 		"build": "next build",
 		"start": "next start"
