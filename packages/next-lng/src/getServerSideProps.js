@@ -103,7 +103,15 @@ const getServerSideProps = async (context = {}, files, runtimeOptions = {}) => {
 		}
 	}
 
-	const { translations, translationsIncluded } = getTranslationsFromFiles({ lng, files, options });
+	let translations = {};
+	let translationsIncluded = [];
+
+	if (typeof window === "undefined") {
+		const fromFile = getTranslationsFromFiles({ lng, files, options });
+		translations = fromFile.translations;
+		translationsIncluded = fromFile.translationsIncluded;
+	}
+
 	return {
 		props: {
 			lng,
