@@ -1,6 +1,6 @@
 import { withLng, useLng, getServerSideProps, Link } from "@mies-co/next-lng";
 
-const HomePage = (props) => {
+const HomePage = props => {
 	// useLng can be used anywhere in your app, it's a React context.
 	const { lng, setLng, t } = useLng();
 
