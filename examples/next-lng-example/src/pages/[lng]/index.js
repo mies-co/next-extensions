@@ -15,10 +15,10 @@ const HomePage = props => {
 			<p>Current language is {lng}</p>
 			<br />
 			<h2>Links:</h2>
-			<Link href="/legacy">
-				<a>Legacy example</a>
+			{/* <Link href="/legacy">
+				<a>Legacy example (currently broken)</a>
 			</Link>
-			<br />
+			<br /> */}
 			<Link href="/scoped">
 				<a>Scoped example</a>
 			</Link>
