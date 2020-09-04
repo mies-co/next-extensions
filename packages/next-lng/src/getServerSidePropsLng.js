@@ -75,7 +75,7 @@ export const getTranslationsFromFiles = ({ lng = defaultLanguage, files = [], op
 	return { translations, translationsIncluded };
 };
 
-const getServerSideProps = async (context = {}, files, runtimeOptions = {}) => {
+const getServerSidePropsLng = async (context = {}, files, runtimeOptions = {}) => {
 	const options = deepmerge(runtimeOptions, configOptions);
 
 	let ctx = context;
@@ -122,4 +122,4 @@ const getServerSideProps = async (context = {}, files, runtimeOptions = {}) => {
 	};
 };
 
-export default getServerSideProps;
+export default getServerSidePropsLng;

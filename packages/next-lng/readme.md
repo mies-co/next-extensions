@@ -54,9 +54,9 @@ Then add this in package.json:
 
 [embedmd]:# (../../examples/next-lng-example/src/pages/[lng]/index.js)
 ```js
-import { withLng, useLng, getServerSideProps, Link } from "@mies-co/next-lng";
+import { withLng, useLng, getServerSidePropsLng, Link } from "@mies-co/next-lng";
 
-const HomePage = (props) => {
+const HomePage = props => {
 	// useLng can be used anywhere in your app, it's a React context.
 	const { lng, setLng, t } = useLng();
 
@@ -86,13 +86,13 @@ const HomePage = (props) => {
 	);
 };
 
-export { getServerSideProps };
+export { getServerSidePropsLng as getServerSideProps };
 export default withLng(HomePage);
 ```
 
 - `withLng`: A HOC to wrap your page with.
 - `useLng`: A react context exposing `lng`, `setLng` and `t`.
-- `getServerSideProps`: An async function fetches your lng API route
+- `getServerSidePropsLng`: An async function fetches your lng API route
 
 ## Scoped translation
 
@@ -122,7 +122,7 @@ const Scoped = () => {
 // Arguments:
 // [0] - a string or string[] of globs
 // [1] - an object that overrides the default `options` defined in next.config.js
-const getServerSideProps = getTranslations(["*/common", "header"], { shallow: true });
+const getServerSideProps = getTranslations(["*/common", "header"], { shallow: false });
 export { getServerSideProps };
 
 export default withLng(Scoped);
@@ -143,7 +143,7 @@ export default withLng(Scoped);
 
 import { withLng, useLng, getTranslations } from "@mies-co/next-lng";
 
-const Legacy = (props) => {
+const Legacy = props => {
 	// useLng can be used anywhere in your app, it's a React context.
 	const { lng, setLng, t } = useLng();
 	// NB! the ids on dom elements are used only for testing purposes and can be safely deleted
@@ -166,8 +166,8 @@ Legacy.getInitialProps = async () => {
 		// This is only if you want to use scoped translations or customize the options. Otherwise don't even return anything.
 		lng: {
 			scope: ["*/common", "header"],
-			options: { shallow: true },
-		},
+			// options: { shallow: false }
+		}
 	};
 };
 

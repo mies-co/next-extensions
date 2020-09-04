@@ -1,9 +1,9 @@
-import getServerSideProps from "./getServerSideProps";
+import getServerSidePropsLng from "./getServerSidePropsLng";
 
 const getTranslations = (files, runtimeOptions) => (ctx) => {
 	let translationFiles = files;
 	if (typeof translationFiles === "string") translationFiles = [translationFiles];
-	return getServerSideProps(ctx, translationFiles, runtimeOptions);
+	return getServerSidePropsLng(ctx, translationFiles, runtimeOptions);
 };
 
 export default getTranslations;
