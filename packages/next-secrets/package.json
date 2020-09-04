@@ -31,7 +31,8 @@
 	"dependencies": {
 		"@mies-co/next-utils": "^0.0.9",
 		"dotenv": "^8.2.0",
-		"hoist-non-react-statics": "^3.3.2"
+		"hoist-non-react-statics": "^3.3.2",
+		"lodash": "^4.17.19"
 	},
 	"peerDependencies": {
 		"next": ">=9.5.2",

@@ -11,7 +11,7 @@
 		"start": "next start"
 	},
 	"dependencies": {
-		"@mies-co/next-secrets": "latest",
+		"@mies-co/next-secrets": "*",
 		"next": "^9.5.2",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1"

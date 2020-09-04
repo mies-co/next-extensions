@@ -10,7 +10,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@mies-co/next-ant": "latest",
+    "@mies-co/next-ant": "*",
     "antd": "^4.0.3",
     "next": "^9.5.2",
     "react": "^16.13.1",
