@@ -1,6 +1,6 @@
 {
 	"name": "@mies-co/next-secrets",
-	"version": "0.0.14",
+	"version": "0.0.15",
 	"description": "Manager your secrets in Next.js",
 	"main": "dist/cjs/bundle.js",
 	"author": "Sébastien d'Olbecke <sebastien@mies.co>",

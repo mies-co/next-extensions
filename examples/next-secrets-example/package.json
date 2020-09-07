@@ -1,6 +1,6 @@
 {
 	"name": "next-secrets-example",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"private": true,
 	"description": "An example app using next-secrets",
 	"license": "MIT",
@@ -11,7 +11,7 @@
 		"start": "next start"
 	},
 	"dependencies": {
-		"@mies-co/next-secrets": "^0.0.14",
+		"@mies-co/next-secrets": "^0.0.15",
 		"next": "^9.5.2",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1"
