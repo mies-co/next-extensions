@@ -13,7 +13,17 @@ export const useSecrets = (...keys) => {
 };
 
 export const getSecrets = () => {
-	return dotenv.config()?.parsed || {};
+	const parsed = dotenv.config()?.parsed || {};
+
+	const secrets = Object.entries(parsed).reduce((acc, [k, v]) => {
+		// Support env variables provided by AWS lambda, or fallback to the dotenv value
+		// Advice: when deploying serverless, deploy a .env that has empty values, just to get the keys from here, but the values from the runtime environment
+		const secret = process.env[k] || v;
+		if (secret) acc[k] = secret;
+		return acc;
+	}, {});
+
+	return secrets;
 };
 
 export const getServerSidePropsSecrets = () => {
