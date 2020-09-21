@@ -2,7 +2,7 @@
 
 import { withLng, useLng, getTranslations } from "@mies-co/next-lng";
 
-const Legacy = (props) => {
+const Legacy = props => {
 	// useLng can be used anywhere in your app, it's a React context.
 	const { lng, setLng, t } = useLng();
 	// NB! the ids on dom elements are used only for testing purposes and can be safely deleted
@@ -25,8 +25,8 @@ Legacy.getInitialProps = async () => {
 		// This is only if you want to use scoped translations or customize the options. Otherwise don't even return anything.
 		lng: {
 			scope: ["*/common", "header"],
-			options: { shallow: false },
-		},
+			// options: { shallow: false }
+		}
 	};
 };
 

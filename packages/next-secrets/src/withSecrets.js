@@ -2,13 +2,28 @@ import mergeInitialProps from "@mies-co/next-utils/mergeInitialProps";
 
 import dotenv from "dotenv";
 import hoistNonReactStatics from "hoist-non-react-statics";
+import _ from "lodash";
 import * as React from "react";
 
 const SecretsContext = React.createContext({});
-export const useSecrets = () => React.useContext(SecretsContext);
+export const useSecrets = (...keys) => {
+	const secrets = React.useContext(SecretsContext);
+	if (!keys.length) return secrets;
+	return _.pickBy(secrets, (v, k) => keys.includes(k));
+};
 
 export const getSecrets = () => {
-	return dotenv.config()?.parsed || {};
+	const parsed = dotenv.config()?.parsed || {};
+
+	const secrets = Object.entries(parsed).reduce((acc, [k, v]) => {
+		// Support env variables provided by AWS lambda, or fallback to the dotenv value
+		// Advice: when deploying serverless, deploy a .env that has empty values, just to get the keys from here, but the values from the runtime environment
+		const secret = process.env[k] || v;
+		if (secret) acc[k] = secret;
+		return acc;
+	}, {});
+
+	return secrets;
 };
 
 export const getServerSidePropsSecrets = () => {

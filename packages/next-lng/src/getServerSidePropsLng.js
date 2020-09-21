@@ -8,14 +8,9 @@ import nookies from "nookies";
 
 import getAbsoluteUrl from "@mies-co/next-utils/getAbsoluteUrl";
 
-import lngConfig, { demoTranslations } from "./lngConfig";
+import getLngConfig, { demoTranslations } from "./lngConfig";
 
-const { languages = ["en"], path: lngPath = "public/static/translations", options: configOptions = {} } = lngConfig;
-const defaultLanguage = languages[0];
-
-let previousLng = defaultLanguage;
-
-export const getTranslationsFromFiles = ({ lng = defaultLanguage, files = [], options }) => {
+export const getTranslationsFromFiles = ({ lng, files = [], options, lngPath }) => {
 	let translationsFiles = files;
 	const { shallow } = options;
 
@@ -75,8 +70,9 @@ export const getTranslationsFromFiles = ({ lng = defaultLanguage, files = [], op
 	return { translations, translationsIncluded };
 };
 
-const getServerSideProps = async (context = {}, files, runtimeOptions = {}) => {
-	const options = deepmerge(runtimeOptions, configOptions);
+const getServerSidePropsLng = async (context = {}, files, runtimeOptions = {}) => {
+	const { languages = ["en"], path: lngPath = "public/static/translations", options: configOptions = {} } = getLngConfig();
+	const options = deepmerge(runtimeOptions, configOptions, { arrayMerge: (a, b) => _.union(a, b) });
 
 	let ctx = context;
 
@@ -85,6 +81,9 @@ const getServerSideProps = async (context = {}, files, runtimeOptions = {}) => {
 	const { url: currentUrl } = ctx.req || {};
 
 	const { cookie: cookieOptions } = options;
+
+	const defaultLanguage = languages[0];
+	let previousLng = defaultLanguage;
 
 	const cookies = nookies.get(ctx);
 	let { req = {}, query: { lng = cookies["next-lng"] || previousLng } = {} } = ctx;
@@ -107,7 +106,7 @@ const getServerSideProps = async (context = {}, files, runtimeOptions = {}) => {
 	let translationsIncluded = [];
 
 	if (typeof window === "undefined") {
-		const fromFile = getTranslationsFromFiles({ lng, files, options });
+		const fromFile = getTranslationsFromFiles({ lng, files, options, lngPath });
 		translations = fromFile.translations;
 		translationsIncluded = fromFile.translationsIncluded;
 	}
@@ -122,4 +121,4 @@ const getServerSideProps = async (context = {}, files, runtimeOptions = {}) => {
 	};
 };
 
-export default getServerSideProps;
+export default getServerSidePropsLng;

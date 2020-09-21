@@ -1,6 +1,6 @@
 // ! If you don't need a custom _app.js page, you can safely delete this page.
 
-import { withLng, useLng, getServerSideProps } from "@mies-co/next-lng";
+import { withLng, useLng } from "@mies-co/next-lng";
 import App from "next/app";
 
 import Topbar from "../comps/Topbar";
@@ -22,13 +22,13 @@ function MyApp({ Component, pageProps, lng, t, setLng }) {
 //
 // More info: https://nextjs.org/docs/advanced-features/custom-app
 //
-MyApp.getInitialProps = async (appContext) => {
+MyApp.getInitialProps = async appContext => {
 	const appProps = await App.getInitialProps(appContext);
 	return {
 		...appProps,
 		lng: {
 			// options: { shallow: false },
-		},
+		}
 	};
 };
 

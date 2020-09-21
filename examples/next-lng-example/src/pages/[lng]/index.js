@@ -1,4 +1,4 @@
-import { withLng, useLng, getServerSideProps, Link } from "@mies-co/next-lng";
+import { withLng, useLng, getServerSidePropsLng, Link } from "@mies-co/next-lng";
 
 const HomePage = props => {
 	// useLng can be used anywhere in your app, it's a React context.
@@ -15,10 +15,10 @@ const HomePage = props => {
 			<p>Current language is {lng}</p>
 			<br />
 			<h2>Links:</h2>
-			<Link href="/legacy">
-				<a>Legacy example</a>
+			{/* <Link href="/legacy">
+				<a>Legacy example (currently broken)</a>
 			</Link>
-			<br />
+			<br /> */}
 			<Link href="/scoped">
 				<a>Scoped example</a>
 			</Link>
@@ -30,5 +30,5 @@ const HomePage = props => {
 	);
 };
 
-export { getServerSideProps };
+export { getServerSidePropsLng as getServerSideProps };
 export default withLng(HomePage);

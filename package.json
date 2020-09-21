@@ -9,6 +9,7 @@
 		"url": "https://github.com/mies-co/next-extensions.git"
 	},
 	"workspaces": [
+		"examples/*",
 		"packages/*"
 	],
 	"scripts": {

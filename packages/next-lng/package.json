@@ -1,6 +1,6 @@
 {
 	"name": "@mies-co/next-lng",
-	"version": "0.0.38",
+	"version": "0.0.41",
 	"description": "Use translations within nextjs.",
 	"main": "dist/cjs/bundle.js",
 	"author": "Sébastien d'Olbecke <sebastien@mies.co>",

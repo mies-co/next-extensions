@@ -6,25 +6,21 @@ import nookies from "nookies";
 
 import * as React from "react";
 
-import lngConfig, { demoTranslations } from "./lngConfig";
+import getLngConfig, { demoTranslations } from "./lngConfig";
 import interpolate from "./utils/interpolate";
 import getTranslations from "./getTranslations";
 
-const { languages } = lngConfig;
-const defaultLanguage = languages[0];
-
 const LngContext = React.createContext({
-	lng: defaultLanguage,
 	setLng: () => null
 });
-
 export const useLng = () => React.useContext(LngContext);
 
 const withLng = (ComposedComponent, opts = {}) => {
 	const ComposedWithLng = props => {
+		// `languages` first come from getInitialProps inside _app, then lower down, they are provided by useLng
 		// _APP -> already wrapped in withLng?
-		const { useLng = () => ({}) } = props;
-		const { lng: _appLng, setLng: _setAppLng } = useLng();
+		const { useLng = () => ({}), languages: allLanguages } = props;
+		const { lng: _appLng, setLng: _setAppLng, languages = allLanguages } = useLng();
 
 		const router = useRouter();
 		const { query = {} } = router;
@@ -32,8 +28,7 @@ const withLng = (ComposedComponent, opts = {}) => {
 		const { lng: lngQuery = query.lng, translations, translationsIncluded = [], options = {}, ...rest } = props;
 		const { shallow = false, ...opts } = options;
 
-		const [lngState, setLngState] = React.useState(lngQuery);
-		const lng = lngState;
+		const [lng, _setLng] = React.useState(lngQuery);
 
 		const routePush = newLng => {
 			const regex = new RegExp(`^/(${languages.join("|")})`);
@@ -57,8 +52,8 @@ const withLng = (ComposedComponent, opts = {}) => {
 				});
 			}
 
-			if (lngState !== newLng) {
-				setLngState(newLng);
+			if (lng !== newLng) {
+				_setLng(newLng);
 				routePush(newLng);
 
 				// _APP -> set new language
@@ -86,7 +81,7 @@ const withLng = (ComposedComponent, opts = {}) => {
 			if (!translationsIncluded.includes(filename)) filename = "common";
 
 			// _APP -> has a language already?
-			const languageToUse = _appLng || lngState;
+			const languageToUse = _appLng || lng;
 			const tp = `${languageToUse}.${filename}.${translationKey}`;
 
 			let translation = get(translations, tp) || "";
@@ -101,7 +96,7 @@ const withLng = (ComposedComponent, opts = {}) => {
 		};
 
 		return (
-			<LngContext.Provider value={{ lng, setLng, t, lngDefault: languages[0] }}>
+			<LngContext.Provider value={{ lng, setLng, t, lngDefault: languages?.[0], languages }}>
 				{/* Props are passed here because so they can be used in class Components (hooks won't work in a class) */}
 				<ComposedComponent t={t} lng={lng} setLng={setLng} {...rest} />
 			</LngContext.Provider>
@@ -121,9 +116,12 @@ const withLng = (ComposedComponent, opts = {}) => {
 			const { lng: { scope, options } = {} } = composedInitialProps;
 			const { props: lngProps } = await getTranslations(scope, options)(ctx);
 
+			const { languages } = getLngConfig();
+
 			return {
 				...composedInitialProps,
-				...lngProps
+				...lngProps,
+				languages
 			};
 		};
 	}

@@ -1,6 +1,6 @@
 // Example of scoped translation
 
-import { withLng, useLng, getTranslations, getServerSideProps } from "@mies-co/next-lng";
+import { withLng, useLng, getTranslations, getServerSidePropsLng } from "@mies-co/next-lng";
 import { useRouter } from "next/router";
 
 const Slug = () => {
@@ -22,5 +22,5 @@ const Slug = () => {
 	);
 };
 
-export { getServerSideProps };
+export { getServerSidePropsLng as getServerSideProps };
 export default withLng(Slug);
