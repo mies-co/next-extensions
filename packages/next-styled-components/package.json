@@ -16,7 +16,14 @@
 		"dist/",
 		"readme.md"
 	],
-	"scripts": {},
+	"config": {
+		"example": "../../examples/next-styled-components-example"
+	},
+	"scripts": {
+		"x.dev": "yarn --cwd $npm_package_config_example dev",
+		"x.build": "yarn --cwd $npm_package_config_example build",
+		"x.start": "yarn --cwd $npm_package_config_example start"
+	},
 	"peerDependencies": {
 		"next": ">=9.4.0",
 		"react": ">=16.13.0",
