@@ -16,6 +16,8 @@ const LngContext = React.createContext({
 export const useLng = () => React.useContext(LngContext);
 
 const withLng = (ComposedComponent, opts = {}) => {
+	const { debug = false } = opts;
+
 	const ComposedWithLng = props => {
 		// `languages` first come from getInitialProps inside _app, then lower down, they are provided by useLng
 		// _APP -> already wrapped in withLng?
@@ -92,8 +94,28 @@ const withLng = (ComposedComponent, opts = {}) => {
 				translation = interpolate(translation, interpolations);
 			}
 
+			if (debug) {
+				console.log("next-lng t debug:", {
+					filename,
+					translationsIncluded,
+					languageToUse,
+					tp,
+					translation,
+					interpolations
+				});
+			}
+
 			return translation;
 		};
+
+		if (debug) {
+			console.log("next-lng render debug:", {
+				lngQuery,
+				lng,
+				languages,
+				props
+			});
+		}
 
 		return (
 			<LngContext.Provider value={{ lng, setLng, t, lngDefault: languages?.[0], languages }}>
