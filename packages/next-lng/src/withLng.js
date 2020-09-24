@@ -136,7 +136,11 @@ const withLng = (ComposedComponent, opts = {}) => {
 
 			// Get these from the ComposedComponent's getInitialProps
 			const { lng: { scope, options } = {} } = composedInitialProps;
-			const { props: lngProps } = await getTranslations(scope, options)(ctx);
+
+			let lngProps = {};
+			if (typeof window === "undefined") {
+				({ props: lngProps } = await getTranslations(scope, options)(ctx));
+			}
 
 			const { languages } = getLngConfig();
 
