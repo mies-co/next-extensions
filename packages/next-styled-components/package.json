@@ -29,5 +29,6 @@
 		"react": ">=16.13.0",
 		"react-dom": ">=16.13.0",
 		"styled-components": ">=5.1.0"
-	}
+	},
+	"gitHead": "3a4caa01962b1d00d470d24dd3f9edc9908954fd"
 }
