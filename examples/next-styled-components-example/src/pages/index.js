@@ -10,7 +10,7 @@ const Row = styled.div`
 `;
 
 const Button = styled.button`
-	background-color: ${(props) => props.theme.colors.primary};
+	background-color: ${props => props.theme.colors.primary};
 	border-width: 0;
 	color: white;
 	cursor: pointer;

@@ -3,8 +3,8 @@ import { ThemeProvider, createGlobalStyle } from "styled-components";
 
 const theme = {
 	colors: {
-		primary: "rgb(0, 128, 86)",
-	},
+		primary: "rgb(0, 128, 86)"
+	}
 };
 
 const GlobalStyle = createGlobalStyle`
