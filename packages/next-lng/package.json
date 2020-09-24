@@ -1,6 +1,6 @@
 {
 	"name": "@mies-co/next-lng",
-	"version": "0.0.41",
+	"version": "0.0.45",
 	"description": "Use translations within nextjs.",
 	"main": "dist/cjs/bundle.js",
 	"author": "Sébastien d'Olbecke <sebastien@mies.co>",
@@ -49,5 +49,6 @@
 		"next": ">=9.4.0",
 		"react": ">=16.13.0",
 		"react-dom": ">=16.13.0"
-	}
+	},
+	"gitHead": "3a4caa01962b1d00d470d24dd3f9edc9908954fd"
 }

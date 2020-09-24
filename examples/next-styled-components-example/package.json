@@ -1,6 +1,6 @@
 {
 	"name": "next-styled-components-example",
-	"version": "0.0.3",
+	"version": "0.0.6",
 	"private": true,
 	"description": "An example app using next-styled-components",
 	"license": "MIT",
@@ -10,7 +10,7 @@
 		"start": "next start"
 	},
 	"dependencies": {
-		"@mies-co/next-styled-components": "*",
+		"@mies-co/next-styled-components": "^0.0.10",
 		"next": "^9.5.2",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",

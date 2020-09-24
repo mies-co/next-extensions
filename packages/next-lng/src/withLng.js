@@ -16,6 +16,8 @@ const LngContext = React.createContext({
 export const useLng = () => React.useContext(LngContext);
 
 const withLng = (ComposedComponent, opts = {}) => {
+	const { debug = false } = opts;
+
 	const ComposedWithLng = props => {
 		// `languages` first come from getInitialProps inside _app, then lower down, they are provided by useLng
 		// _APP -> already wrapped in withLng?
@@ -25,7 +27,7 @@ const withLng = (ComposedComponent, opts = {}) => {
 		const router = useRouter();
 		const { query = {} } = router;
 
-		const { lng: lngQuery = query.lng, translations, translationsIncluded = [], options = {}, ...rest } = props;
+		const { lng: lngQuery = query.lng, translations, translationsIncluded = [], translationPaths = [], options = {}, ...rest } = props;
 		const { shallow = false, ...opts } = options;
 
 		const [lng, _setLng] = React.useState(lngQuery);
@@ -40,7 +42,11 @@ const withLng = (ComposedComponent, opts = {}) => {
 		// LANGUAGE CHANGE
 		// ---
 		const setLng = newLng => {
-			if (!newLng) return;
+			if (debug) {
+				console.log("next-lng setLng debug:", { newLng });
+			}
+
+			if (!newLng) return console.error("New language was undefined");
 
 			const cookies = nookies.get();
 			// COOKIES CREATION
@@ -63,7 +69,7 @@ const withLng = (ComposedComponent, opts = {}) => {
 
 		// _APP -> its lng changed, so we need ot update the lng of our page
 		React.useEffect(() => {
-			setLng(_appLng);
+			if (_appLng) setLng(_appLng);
 		}, [_appLng]);
 
 		// TRANSLATE FUNCTION
@@ -92,8 +98,28 @@ const withLng = (ComposedComponent, opts = {}) => {
 				translation = interpolate(translation, interpolations);
 			}
 
+			if (debug) {
+				console.log("next-lng t debug:", {
+					filename,
+					translationsIncluded,
+					languageToUse,
+					tp,
+					translation,
+					interpolations
+				});
+			}
+
 			return translation;
 		};
+
+		if (debug) {
+			console.log("next-lng render debug:", {
+				lngQuery,
+				lng,
+				languages,
+				props
+			});
+		}
 
 		return (
 			<LngContext.Provider value={{ lng, setLng, t, lngDefault: languages?.[0], languages }}>
@@ -114,7 +140,11 @@ const withLng = (ComposedComponent, opts = {}) => {
 
 			// Get these from the ComposedComponent's getInitialProps
 			const { lng: { scope, options } = {} } = composedInitialProps;
-			const { props: lngProps } = await getTranslations(scope, options)(ctx);
+
+			let lngProps = {};
+			if (typeof window === "undefined") {
+				({ props: lngProps } = await getTranslations(scope, options)(ctx));
+			}
 
 			const { languages } = getLngConfig();
 

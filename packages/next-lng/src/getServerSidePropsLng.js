@@ -67,7 +67,7 @@ export const getTranslationsFromFiles = ({ lng, files = [], options, lngPath }) 
 		translations[language][filename] = JSON.parse(fs.readFileSync(translationPath, "utf8"));
 	}
 
-	return { translations, translationsIncluded };
+	return { translations, translationsIncluded, translationPaths };
 };
 
 const getServerSidePropsLng = async (context = {}, files, runtimeOptions = {}) => {
@@ -102,20 +102,14 @@ const getServerSidePropsLng = async (context = {}, files, runtimeOptions = {}) =
 		}
 	}
 
-	let translations = {};
-	let translationsIncluded = [];
-
-	if (typeof window === "undefined") {
-		const fromFile = getTranslationsFromFiles({ lng, files, options, lngPath });
-		translations = fromFile.translations;
-		translationsIncluded = fromFile.translationsIncluded;
-	}
+	const { translations, translationsIncluded, translationPaths } = getTranslationsFromFiles({ lng, files, options, lngPath });
 
 	return {
 		props: {
 			lng,
 			translations,
 			translationsIncluded,
+			translationPathsRelative: translationPaths.map(x => lngPath + x.split(lngPath)[1]), // this is just for debugging purposes
 			options
 		}
 	};
