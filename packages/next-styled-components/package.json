@@ -1,6 +1,6 @@
 {
 	"name": "@mies-co/next-styled-components",
-	"version": "0.0.10",
+	"version": "0.0.11",
 	"description": "Use styled-components with nextjs.",
 	"main": "dist/cjs/bundle.js",
 	"author": "Sébastien d'Olbecke <sebastien@mies.co>",
