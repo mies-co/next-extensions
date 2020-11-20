@@ -6,6 +6,7 @@ import App from "next/app";
 import Topbar from "../comps/Topbar";
 
 function MyApp({ Component, pageProps, lng, t, setLng }) {
+	console.log("lng", pageProps);
 	return (
 		<>
 			{/* An example of a component that needs to use translations as well */}

@@ -12,16 +12,24 @@ export const useSecrets = (...keys) => {
 	return _.pickBy(secrets, (v, k) => keys.includes(k));
 };
 
+// Use the keys of .env in order to know which env variables to provide.
 export const getSecrets = () => {
 	const parsed = dotenv.config()?.parsed || {};
 
-	const secrets = Object.entries(parsed).reduce((acc, [k, v]) => {
-		// Support env variables provided by AWS lambda, or fallback to the dotenv value
-		// Advice: when deploying serverless, deploy a .env that has empty values, just to get the keys from here, but the values from the runtime environment
-		const secret = process.env[k] || v;
-		if (secret) acc[k] = secret;
-		return acc;
-	}, {});
+	let secrets = {};
+
+	if (process.env.X_DEPLOYMENT_TOOL === "lambda") {
+		secrets = Object.entries(parsed).reduce((acc, [k, v]) => {
+			// Support env variables provided by AWS lambda, or fallback to the dotenv value
+			// Advice: when deploying serverless, deploy a .env that has empty values, just to get the keys from here, but the values from the runtime environment
+			const secret = process.env[k] || v;
+			if (secret) acc[k] = secret;
+			return acc;
+		}, {});
+	} else {
+		// Fallback to Vercel deployment strategy (no empty .env for security)
+		secrets = process.env;
+	}
 
 	return secrets;
 };
